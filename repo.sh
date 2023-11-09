@@ -9,7 +9,7 @@ set -o pipefail
 
 if [ -z "$DEVSTACK_WORKSPACE" ]; then
     echo "need to set workspace dir"
-    exit 1elif [ -d "$DEVSTACK_WORKSPACE" ]; then
+    exit elif [ -d "$DEVSTACK_WORKSPACE" ]; then
     cd "$DEVSTACK_WORKSPACE"
 else
     echo "Workspace directory $DEVSTACK_WORKSPACE doesn't exist"
