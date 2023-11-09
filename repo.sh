@@ -9,8 +9,7 @@ set -o pipefail
 
 if [ -z "$DEVSTACK_WORKSPACE" ]; then
     echo "need to set workspace dir"
-    exit 1
-elif [ -d "$DEVSTACK_WORKSPACE" ]; then
+    exit 1elif [ -d "$DEVSTACK_WORKSPACE" ]; then
     cd "$DEVSTACK_WORKSPACE"
 else
     echo "Workspace directory $DEVSTACK_WORKSPACE doesn't exist"
@@ -21,19 +20,19 @@ fi
 # (or non_release_repos and non_release_ssh_repos if they are not part
 # of Open edX releases).
 repos=(
-    "https://github.com/openedx/course-discovery.git"
-    "https://github.com/openedx/credentials.git"
-    "https://github.com/openedx/cs_comments_service.git"
-    "https://github.com/openedx/ecommerce.git"
-    "https://github.com/openedx/edx-notes-api.git"
-    "https://github.com/openedx/edx-platform.git"
-    "https://github.com/openedx/xqueue.git"
-    "https://github.com/openedx/edx-analytics-dashboard.git"
-    "https://github.com/openedx/frontend-app-gradebook.git"
-    "https://github.com/openedx/frontend-app-payment.git"
-    "https://github.com/openedx/frontend-app-publisher.git"
-    "https://github.com/openedx/edx-analytics-dashboard.git"
-    "https://github.com/openedx/edx-analytics-data-api.git"
+    "https://github.com/bryte/course-discovery.git"
+    "https://github.com/bryte/credentials.git"
+    "https://github.com/bryte/cs_comments_service.git"
+    "https://github.com/bryte/ecommerce.git"
+    "https://github.com/bryte/edx-notes-api.git"
+    "https://github.com/bryte/edx-platform.git"
+    "https://github.com/bryet/xqueue.git"
+    "https://github.com/bryte/edx-analytics-dashboard.git"
+    "https://github.com/bryte/frontend-app-gradebook.git"
+    "https://github.com/bryte/frontend-app-payment.git"
+    "https://github.com/bryte/frontend-app-publisher.git"
+    "https://github.com/bryte/edx-analytics-dashboard.git"
+    "https://github.com/bryte/edx-analytics-data-api.git"
 )
 
 non_release_repos=(
@@ -49,19 +48,19 @@ non_release_repos=(
 )
 
 ssh_repos=(
-    "git@github.com:openedx/course-discovery.git"
-    "git@github.com:openedx/credentials.git"
-    "git@github.com:openedx/cs_comments_service.git"
-    "git@github.com:openedx/ecommerce.git"
-    "git@github.com:openedx/edx-notes-api.git"
-    "git@github.com:openedx/edx-platform.git"
-    "git@github.com:openedx/xqueue.git"
-    "git@github.com:openedx/edx-analytics-dashboard.git"
-    "git@github.com:openedx/frontend-app-gradebook.git"
-    "git@github.com:openedx/frontend-app-payment.git"
-    "git@github.com:openedx/frontend-app-publisher.git"
-    "git@github.com:openedx/edx-analytics-dashboard.git"
-    "git@github.com:openedx/edx-analytics-data-api.git"
+    "git@github.com:bryte/course-discovery.git"
+    "git@github.com:bryte/credentials.git"
+    "git@github.com:bryte/cs_comments_service.git"
+    "git@github.com:bryte/ecommerce.git"
+    "git@github.com:bryte/edx-notes-api.git"
+    "git@github.com:bryte/edx-platform.git"
+    "git@github.com:bryte/xqueue.git"
+    "git@github.com:bryte/edx-analytics-dashboard.git"
+    "git@github.com:bryte/frontend-app-gradebook.git"
+    "git@github.com:bryte/frontend-app-payment.git"
+    "git@github.com:bryte/frontend-app-publisher.git"
+    "git@github.com:bryte/edx-analytics-dashboard.git"
+    "git@github.com:bryte/edx-analytics-data-api.git"
 )
 
 non_release_ssh_repos=(
