@@ -26,7 +26,6 @@ repos=(
     "https://github.com/brytemorio/cs_comments_service.git"
     "https://github.com/brytemorio/ecommerce.git"
     "https://github.com/brytemorio/edx-notes-api.git"
-    "https://github.com/brytemorio/edx-platform.git"
     "https://github.com/brytemorio/xqueue.git"
     "https://github.com/brytemorio/edx-analytics-dashboard.git"
     "https://github.com/brytemorio/frontend-app-gradebook.git"
@@ -34,18 +33,19 @@ repos=(
     "https://github.com/brytemorio/frontend-app-publisher.git"
     "https://github.com/brytemorio/edx-analytics-dashboard.git"
     "https://github.com/brytemorio/edx-analytics-data-api.git"
+    "https://github.com/brytemorio/edx-platform.git"
 )
 
 non_release_repos=(
-    "https://github.com/openedx/frontend-app-authn.git"
-    "https://github.com/openedx/frontend-app-course-authoring.git"
-    "https://github.com/openedx/frontend-app-learning.git"
-    "https://github.com/openedx/frontend-app-library-authoring.git"
-    "https://github.com/openedx/registrar.git"
-    "https://github.com/openedx/frontend-app-program-console.git"
-    "https://github.com/openedx/frontend-app-account.git"
-    "https://github.com/openedx/frontend-app-profile.git"
-    "https://github.com/openedx/frontend-app-ora-grading.git"
+    "https://github.com/brytemorio/frontend-app-authn.git"
+    "https://github.com/brytemorio/frontend-app-course-authoring.git"
+    "https://github.com/brytemorio/frontend-app-learning.git"
+    "https://github.com/brytemorio/frontend-app-library-authoring.git"
+    "https://github.com/brytemorio/registrar.git"
+    "https://github.com/brytemorio/frontend-app-program-console.git"
+    "https://github.com/brytemorio/frontend-app-account.git"
+    "https://github.com/brytemorio/frontend-app-profile.git"
+    "https://github.com/brytemorio/frontend-app-ora-grading.git"
 )
 
 ssh_repos=(
@@ -65,15 +65,15 @@ ssh_repos=(
 )
 
 non_release_ssh_repos=(
-    "git@github.com:openedx/frontend-app-authn.git"
-    "git@github.com:openedx/frontend-app-course-authoring.git"
-    "git@github.com:openedx/frontend-app-learning.git"
-    "git@github.com:openedx/frontend-app-library-authoring.git"
-    "git@github.com:openedx/registrar.git"
-    "git@github.com:openedx/frontend-app-program-console.git"
-    "git@github.com:openedx/frontend-app-account.git"
-    "git@github.com:openedx/frontend-app-profile.git"
-    "git@github.com:openedx/frontend-app-ora-grading.git"
+    "git@github.com:brytemorio/frontend-app-authn.git"
+    "git@github.com:brytemoriox/frontend-app-course-authoring.git"
+    "git@github.com:brytemorio/frontend-app-learning.git"
+    "git@github.com:brytemorio/frontend-app-library-authoring.git"
+    "git@github.com:brytemorio/registrar.git"
+    "git@github.com:brytemorio/frontend-app-program-console.git"
+    "git@github.com:brytemorio/frontend-app-account.git"
+    "git@github.com:brytemorio/frontend-app-profile.git"
+    "git@github.com:brytemorio/frontend-app-ora-grading.git"
 )
 
 if [ -n "${OPENEDX_RELEASE}" ]; then
