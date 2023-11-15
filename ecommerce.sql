@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.39, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Linux (x86_64)
 --
 -- Host: localhost    Database: ecommerce
 -- ------------------------------------------------------
--- Server version	5.7.39
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 /*!40000 DROP DATABASE IF EXISTS `ecommerce`*/;
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ecommerce` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `ecommerce` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `ecommerce`;
 
@@ -30,20 +30,20 @@ USE `ecommerce`;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address_country` (
   `iso_3166_1_a2` varchar(2) NOT NULL,
   `iso_3166_1_a3` varchar(3) NOT NULL,
   `iso_3166_1_numeric` varchar(3) NOT NULL,
   `printable_name` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
-  `display_order` smallint(5) unsigned NOT NULL,
+  `display_order` smallint unsigned NOT NULL,
   `is_shipping_country` tinyint(1) NOT NULL,
   PRIMARY KEY (`iso_3166_1_a2`),
   KEY `address_country_display_order_dc88cde8` (`display_order`),
   KEY `address_country_is_shipping_country_f7b6c461` (`is_shipping_country`),
   KEY `address_country_printable_name_450b016c` (`printable_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,9 +61,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `address_useraddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -78,19 +78,19 @@ CREATE TABLE `address_useraddress` (
   `notes` longtext NOT NULL,
   `is_default_for_shipping` tinyint(1) NOT NULL,
   `is_default_for_billing` tinyint(1) NOT NULL,
-  `num_orders_as_shipping_address` int(10) unsigned NOT NULL,
+  `num_orders_as_shipping_address` int unsigned NOT NULL,
   `hash` varchar(255) NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `country_id` varchar(2) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `num_orders_as_billing_address` int(10) unsigned NOT NULL,
+  `user_id` int NOT NULL,
+  `num_orders_as_billing_address` int unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `address_useraddress_user_id_hash_9d1738c7_uniq` (`user_id`,`hash`),
   KEY `address_useraddress_country_id_fa26a249_fk_address_c` (`country_id`),
   KEY `address_useraddress_hash_e0a6b290` (`hash`),
   CONSTRAINT `address_useraddress_country_id_fa26a249_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
   CONSTRAINT `address_useraddress_user_id_6edf0244_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,19 +107,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_productrecord` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `num_views` int(10) unsigned NOT NULL,
-  `num_basket_additions` int(10) unsigned NOT NULL,
-  `num_purchases` int(10) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `num_views` int unsigned NOT NULL,
+  `num_basket_additions` int unsigned NOT NULL,
+  `num_purchases` int unsigned NOT NULL,
   `score` double NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `product_id` (`product_id`),
   KEY `analytics_productrecord_num_purchases_405301a0` (`num_purchases`),
   CONSTRAINT `analytics_productrec_product_id_dad3a871_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,18 +136,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_userproductview` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date_created` datetime(6) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `product_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `analytics_userproduc_product_id_a55b87ad_fk_catalogue` (`product_id`),
   KEY `analytics_userproductview_user_id_5e49a8b1_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `analytics_userproduc_product_id_a55b87ad_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `analytics_userproductview_user_id_5e49a8b1_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,24 +164,24 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_userrecord` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `num_product_views` int(10) unsigned NOT NULL,
-  `num_basket_additions` int(10) unsigned NOT NULL,
-  `num_orders` int(10) unsigned NOT NULL,
-  `num_order_lines` int(10) unsigned NOT NULL,
-  `num_order_items` int(10) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `num_product_views` int unsigned NOT NULL,
+  `num_basket_additions` int unsigned NOT NULL,
+  `num_orders` int unsigned NOT NULL,
+  `num_order_lines` int unsigned NOT NULL,
+  `num_order_items` int unsigned NOT NULL,
   `total_spent` decimal(12,2) NOT NULL,
   `date_last_order` datetime(6) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   KEY `analytics_userrecord_num_orders_b352ffd1` (`num_orders`),
   KEY `analytics_userrecord_num_order_lines_97cc087f` (`num_order_lines`),
   KEY `analytics_userrecord_num_order_items_fb2a8304` (`num_order_items`),
   CONSTRAINT `analytics_userrecord_user_id_702cff4c_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,17 +198,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `analytics_usersearch` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `query` varchar(255) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `analytics_usersearch_user_id_1775992d_fk_ecommerce_user_id` (`user_id`),
   KEY `analytics_usersearch_query_ad36478b` (`query`),
   CONSTRAINT `analytics_usersearch_user_id_1775992d_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -225,13 +225,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,17 +248,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_group_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_group_permissions_group_id_permission_id_0cd325b0_uniq` (`group_id`,`permission_id`),
   KEY `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` (`permission_id`),
   CONSTRAINT `auth_group_permissio_permission_id_84c5c92e_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `auth_group_permissions_group_id_b120cbf9_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -275,16 +275,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `content_type_id` int(11) NOT NULL,
+  `content_type_id` int NOT NULL,
   `codename` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,21 +302,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_basket` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `status` varchar(128) NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `date_merged` datetime(6) DEFAULT NULL,
   `date_submitted` datetime(6) DEFAULT NULL,
-  `owner_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `owner_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `basket_basket_owner_id_3a018de5_fk_ecommerce_user_id` (`owner_id`),
   KEY `basket_basket_site_id_c45bd035_fk_django_site_id` (`site_id`),
   CONSTRAINT `basket_basket_owner_id_3a018de5_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`),
   CONSTRAINT `basket_basket_site_id_c45bd035_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -333,17 +333,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_basket_vouchers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `basket_id` int(11) NOT NULL,
-  `voucher_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `basket_id` int NOT NULL,
+  `voucher_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `basket_basket_vouchers_basket_id_voucher_id_0731eee2_uniq` (`basket_id`,`voucher_id`),
   KEY `basket_basket_vouchers_voucher_id_c2b66981_fk_voucher_voucher_id` (`voucher_id`),
   CONSTRAINT `basket_basket_vouchers_basket_id_f857c2f8_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
   CONSTRAINT `basket_basket_vouchers_voucher_id_c2b66981_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,18 +360,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_basketattribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `value_text` longtext NOT NULL,
-  `attribute_type_id` int(11) NOT NULL,
-  `basket_id` int(11) NOT NULL,
+  `attribute_type_id` int NOT NULL,
+  `basket_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `basket_basketattribute_basket_id_attribute_type_id_a6c168f8_uniq` (`basket_id`,`attribute_type_id`),
   KEY `basket_basketattribu_attribute_type_id_822adc5d_fk_basket_ba` (`attribute_type_id`),
   CONSTRAINT `basket_basketattribu_attribute_type_id_822adc5d_fk_basket_ba` FOREIGN KEY (`attribute_type_id`) REFERENCES `basket_basketattributetype` (`id`),
   CONSTRAINT `basket_basketattribute_basket_id_55c452f8_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -388,13 +388,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_basketattributetype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,18 +412,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_line` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `line_reference` varchar(128) NOT NULL,
-  `quantity` int(10) unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
   `price_currency` varchar(12) NOT NULL,
   `price_excl_tax` decimal(12,2) DEFAULT NULL,
   `price_incl_tax` decimal(12,2) DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
-  `basket_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `stockrecord_id` int(11) NOT NULL,
+  `basket_id` int NOT NULL,
+  `product_id` int NOT NULL,
+  `stockrecord_id` int NOT NULL,
   `date_updated` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `basket_line_basket_id_line_reference_8977e974_uniq` (`basket_id`,`line_reference`),
@@ -435,7 +435,7 @@ CREATE TABLE `basket_line` (
   CONSTRAINT `basket_line_basket_id_b615c905_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
   CONSTRAINT `basket_line_product_id_303d743e_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `basket_line_stockrecord_id_7039d8a4_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -452,18 +452,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `basket_lineattribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `value` varchar(255) NOT NULL,
-  `line_id` int(11) NOT NULL,
-  `option_id` int(11) NOT NULL,
+  `line_id` int NOT NULL,
+  `option_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `basket_lineattribute_line_id_c41e0cdf_fk_basket_line_id` (`line_id`),
   KEY `basket_lineattribute_option_id_9387a3f7_fk_catalogue_option_id` (`option_id`),
   CONSTRAINT `basket_lineattribute_line_id_c41e0cdf_fk_basket_line_id` FOREIGN KEY (`line_id`) REFERENCES `basket_line` (`id`),
   CONSTRAINT `basket_lineattribute_option_id_9387a3f7_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,15 +480,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_attributeoption` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `option` varchar(255) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `group_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_attributeoption_group_id_option_7a8f6c11_uniq` (`group_id`,`option`),
   CONSTRAINT `catalogue_attributeo_group_id_3d4a5e24_fk_catalogue` FOREIGN KEY (`group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -505,12 +505,12 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_attributeoptiongroup` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -527,15 +527,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_catalog` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `partner_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `catalogue_catalog_partner_id_eeba0b62_fk_partner_partner_id` (`partner_id`),
   CONSTRAINT `catalogue_catalog_partner_id_eeba0b62_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -552,17 +552,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_catalog_stock_records` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `catalog_id` int(11) NOT NULL,
-  `stockrecord_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `catalog_id` int NOT NULL,
+  `stockrecord_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_catalog_stock__catalog_id_stockrecord_i_f363d53b_uniq` (`catalog_id`,`stockrecord_id`),
   KEY `catalogue_catalog_st_stockrecord_id_e480f401_fk_partner_s` (`stockrecord_id`),
   CONSTRAINT `catalogue_catalog_st_catalog_id_8fa6c918_fk_catalogue` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`),
   CONSTRAINT `catalogue_catalog_st_stockrecord_id_e480f401_fk_partner_s` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -579,12 +579,12 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `path` varchar(255) NOT NULL,
-  `depth` int(10) unsigned NOT NULL,
-  `numchild` int(10) unsigned NOT NULL,
+  `depth` int unsigned NOT NULL,
+  `numchild` int unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` longtext NOT NULL,
   `image` varchar(255) DEFAULT NULL,
@@ -597,7 +597,7 @@ CREATE TABLE `catalogue_category` (
   KEY `catalogue_category_slug_9635febd` (`slug`),
   KEY `catalogue_category_ancestors_are_public_d088d0db` (`ancestors_are_public`),
   KEY `catalogue_category_is_public_ab0536be` (`is_public`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -615,20 +615,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalcategory` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `path` varchar(255) NOT NULL,
-  `depth` int(10) unsigned NOT NULL,
-  `numchild` int(10) unsigned NOT NULL,
+  `depth` int unsigned NOT NULL,
+  `numchild` int unsigned NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` longtext NOT NULL,
   `image` longtext,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   `ancestors_are_public` tinyint(1) NOT NULL,
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`history_id`),
@@ -639,7 +639,7 @@ CREATE TABLE `catalogue_historicalcategory` (
   KEY `catalogue_historicalcategory_ancestors_are_public_4bb224ba` (`ancestors_are_public`),
   KEY `catalogue_historicalcategory_is_public_55b70eef` (`is_public`),
   CONSTRAINT `catalogue_historical_history_user_id_584e44e9_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -656,21 +656,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicaloption` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `type` varchar(128) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_38090a96_fk_ecommerce` (`history_user_id`),
   KEY `catalogue_historicaloption_id_d1fe6cd6` (`id`),
   CONSTRAINT `catalogue_historical_history_user_id_38090a96_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -687,9 +687,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalproduct` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `structure` varchar(10) NOT NULL,
   `upc` varchar(64) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
@@ -700,14 +700,14 @@ CREATE TABLE `catalogue_historicalproduct` (
   `date_updated` datetime(6) NOT NULL,
   `is_discountable` tinyint(1) NOT NULL,
   `expires` datetime(6) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
   `course_id` varchar(255) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
+  `product_class_id` int DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_4ea2c15a_fk_ecommerce` (`history_user_id`),
@@ -721,7 +721,7 @@ CREATE TABLE `catalogue_historicalproduct` (
   KEY `catalogue_historicalproduct_date_created_236cc17e` (`date_created`),
   KEY `catalogue_historicalproduct_is_public_e19f5cd3` (`is_public`),
   CONSTRAINT `catalogue_historical_history_user_id_4ea2c15a_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -730,7 +730,7 @@ CREATE TABLE `catalogue_historicalproduct` (
 
 LOCK TABLES `catalogue_historicalproduct` WRITE;
 /*!40000 ALTER TABLE `catalogue_historicalproduct` DISABLE KEYS */;
-INSERT INTO `catalogue_historicalproduct` VALUES (1,'parent',NULL,'','','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.104650',1,NULL,1,'2021-07-30 20:19:59.105366',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.112912',1,NULL,2,'2021-07-30 20:19:59.113899',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2021-07-30 20:19:59.137934',1,NULL,3,'2021-07-30 20:19:59.138571',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2021-07-30 20:19:59.183896',1,'2022-07-30 20:19:59.064405',4,'2021-07-30 20:19:59.185592',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2021-07-30 20:19:59.198403',1,'2022-07-30 20:19:59.064405',5,'2021-07-30 20:19:59.199249',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-02-10 18:45:44.453776',1,NULL,6,'2023-02-10 18:45:44.455621',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-02-10 18:45:44.530199',1,NULL,7,'2023-02-10 18:45:44.533808',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-02-10 18:45:44.595187',1,'2024-02-10 18:45:44.397877',8,'2023-02-10 18:45:44.596482',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-02-10 18:45:44.619550',1,'2022-07-30 20:19:59.064405',9,'2023-02-10 18:45:44.622680',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-02-21 14:41:58.435143',1,NULL,10,'2023-02-21 14:41:58.436284',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-02-21 14:41:58.491359',1,NULL,11,'2023-02-21 14:41:58.493371',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-02-21 14:41:58.543609',1,'2024-02-21 14:41:58.376814',12,'2023-02-21 14:41:58.544822',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-02-21 14:41:58.566891',1,'2022-07-30 20:19:59.064405',13,'2023-02-21 14:41:58.568331',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1);
+INSERT INTO `catalogue_historicalproduct` VALUES (1,'parent',NULL,'','','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.104650',1,NULL,1,'2021-07-30 20:19:59.105366',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2021-07-30 20:19:59.112912',1,NULL,2,'2021-07-30 20:19:59.113899',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2021-07-30 20:19:59.137934',1,NULL,3,'2021-07-30 20:19:59.138571',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate (and ID verification)','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2021-07-30 20:19:59.183896',1,'2022-07-30 20:19:59.064405',4,'2021-07-30 20:19:59.185592',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2021-07-30 20:19:59.198403',1,'2022-07-30 20:19:59.064405',5,'2021-07-30 20:19:59.199249',NULL,'+','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-02-10 18:45:44.453776',1,NULL,6,'2023-02-10 18:45:44.455621',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-02-10 18:45:44.530199',1,NULL,7,'2023-02-10 18:45:44.533808',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-02-10 18:45:44.595187',1,'2024-02-10 18:45:44.397877',8,'2023-02-10 18:45:44.596482',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-02-10 18:45:44.619550',1,'2022-07-30 20:19:59.064405',9,'2023-02-10 18:45:44.622680',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-02-21 14:41:58.435143',1,NULL,10,'2023-02-21 14:41:58.436284',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-02-21 14:41:58.491359',1,NULL,11,'2023-02-21 14:41:58.493371',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-02-21 14:41:58.543609',1,'2024-02-21 14:41:58.376814',12,'2023-02-21 14:41:58.544822',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-02-21 14:41:58.566891',1,'2022-07-30 20:19:59.064405',13,'2023-02-21 14:41:58.568331',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1),(1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-11-10 22:32:45.764987',1,NULL,14,'2023-11-10 22:32:45.766309',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,1,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-11-10 22:32:46.137536',1,NULL,15,'2023-11-10 22:32:46.138982',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-11-10 22:32:46.367130',1,'2024-11-09 22:32:45.558795',16,'2023-11-10 22:32:46.368261',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,1,NULL,1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-11-10 22:32:46.392011',1,'2022-07-30 20:19:59.064405',17,'2023-11-10 22:32:46.393434',NULL,'~','course-v1:edX+DemoX+Demo_Course',NULL,NULL,3,1);
 /*!40000 ALTER TABLE `catalogue_historicalproduct` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -739,20 +739,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalproductattribute` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   `type` varchar(20) NOT NULL,
   `required` tinyint(1) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `option_group_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `option_group_id` int DEFAULT NULL,
+  `product_class_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_6aab3050_fk_ecommerce` (`history_user_id`),
   KEY `catalogue_historicalproductattribute_id_4708da5b` (`id`),
@@ -760,7 +760,7 @@ CREATE TABLE `catalogue_historicalproductattribute` (
   KEY `catalogue_historicalproductattribute_option_group_id_be14add3` (`option_group_id`),
   KEY `catalogue_historicalproductattribute_product_class_id_af241c79` (`product_class_id`),
   CONSTRAINT `catalogue_historical_history_user_id_6aab3050_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -777,11 +777,11 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalproductattributevalue` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `value_text` longtext,
-  `value_integer` int(11) DEFAULT NULL,
+  `value_integer` int DEFAULT NULL,
   `value_boolean` tinyint(1) DEFAULT NULL,
   `value_float` double DEFAULT NULL,
   `value_richtext` longtext,
@@ -789,16 +789,16 @@ CREATE TABLE `catalogue_historicalproductattributevalue` (
   `value_datetime` datetime(6) DEFAULT NULL,
   `value_file` longtext,
   `value_image` longtext,
-  `entity_object_id` int(10) unsigned DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `entity_object_id` int unsigned DEFAULT NULL,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `attribute_id` int(11) DEFAULT NULL,
-  `entity_content_type_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `value_option_id` int(11) DEFAULT NULL,
+  `attribute_id` int DEFAULT NULL,
+  `entity_content_type_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `value_option_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_34610f3f_fk_ecommerce` (`history_user_id`),
   KEY `catalogue_historicalproductattributevalue_id_a19c2a60` (`id`),
@@ -812,7 +812,7 @@ CREATE TABLE `catalogue_historicalproductattributevalue` (
   KEY `catalogue_historicalproductattributevalue_value_float_79557818` (`value_float`),
   KEY `catalogue_historicalproductattributevalue_value_integer_5e216649` (`value_integer`),
   CONSTRAINT `catalogue_historical_history_user_id_34610f3f_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -830,23 +830,23 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalproductcategory` (
-  `id` int(11) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `category_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
+  `category_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_b2a38081_fk_ecommerce` (`history_user_id`),
   KEY `catalogue_historicalproductcategory_id_61c44723` (`id`),
   KEY `catalogue_historicalproductcategory_category_id_806ddb2d` (`category_id`),
   KEY `catalogue_historicalproductcategory_product_id_98bbd24d` (`product_id`),
   CONSTRAINT `catalogue_historical_history_user_id_b2a38081_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -864,22 +864,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_historicalproductclass` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `requires_shipping` tinyint(1) NOT NULL,
   `track_stock` tinyint(1) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `catalogue_historical_history_user_id_6e1db4c7_fk_ecommerce` (`history_user_id`),
   KEY `catalogue_historicalproductclass_id_6f7b6d39` (`id`),
   CONSTRAINT `catalogue_historical_history_user_id_6e1db4c7_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -896,15 +896,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   `type` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -922,9 +922,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_product` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `structure` varchar(10) NOT NULL,
   `upc` varchar(64) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
@@ -934,8 +934,8 @@ CREATE TABLE `catalogue_product` (
   `date_created` datetime(6) NOT NULL,
   `date_updated` datetime(6) NOT NULL,
   `is_discountable` tinyint(1) NOT NULL,
-  `parent_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
+  `parent_id` int DEFAULT NULL,
+  `product_class_id` int DEFAULT NULL,
   `course_id` varchar(255) DEFAULT NULL,
   `expires` datetime(6) DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
@@ -951,7 +951,7 @@ CREATE TABLE `catalogue_product` (
   CONSTRAINT `catalogue_product_course_id_1918bc6b_fk_courses_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses_course` (`id`),
   CONSTRAINT `catalogue_product_parent_id_9bfd2382_fk_catalogue_product_id` FOREIGN KEY (`parent_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `catalogue_product_product_class_id_0c6c5b54_fk_catalogue` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -960,7 +960,7 @@ CREATE TABLE `catalogue_product` (
 
 LOCK TABLES `catalogue_product` WRITE;
 /*!40000 ALTER TABLE `catalogue_product` DISABLE KEYS */;
-INSERT INTO `catalogue_product` VALUES (1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-02-21 14:41:58.435143',1,NULL,1,'course-v1:edX+DemoX+Demo_Course',NULL,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-02-21 14:41:58.491359',1,1,NULL,'course-v1:edX+DemoX+Demo_Course',NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-02-21 14:41:58.543609',1,1,NULL,'course-v1:edX+DemoX+Demo_Course','2024-02-21 14:41:58.376814',1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-02-21 14:41:58.566891',1,NULL,3,'course-v1:edX+DemoX+Demo_Course','2022-07-30 20:19:59.064405',1);
+INSERT INTO `catalogue_product` VALUES (1,'parent',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.104604','2023-11-10 22:32:45.764987',1,NULL,1,'course-v1:edX+DemoX+Demo_Course',NULL,1),(2,'child',NULL,'Seat in edX Demonstration Course','seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.137887','2023-11-10 22:32:46.137536',1,1,NULL,'course-v1:edX+DemoX+Demo_Course',NULL,1),(3,'child',NULL,'Seat in edX Demonstration Course with verified certificate','seat-in-edx-demonstration-course-with-verified-certificate-and-id-verification','',NULL,'2021-07-30 20:19:59.183843','2023-11-10 22:32:46.367130',1,1,NULL,'course-v1:edX+DemoX+Demo_Course','2024-11-09 22:32:45.558795',1),(4,'standalone',NULL,'Enrollment code for verified seat in edX Demonstration Course','enrollment-code-for-verified-seat-in-edx-demonstration-course','',NULL,'2021-07-30 20:19:59.198338','2023-11-10 22:32:46.392011',1,NULL,3,'course-v1:edX+DemoX+Demo_Course','2022-07-30 20:19:59.064405',1);
 /*!40000 ALTER TABLE `catalogue_product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -969,17 +969,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_product_product_options` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
-  `option_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `option_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_product_produc_product_id_option_id_9b3abb31_uniq` (`product_id`,`option_id`),
   KEY `catalogue_product_pr_option_id_ff470e13_fk_catalogue` (`option_id`),
   CONSTRAINT `catalogue_product_pr_option_id_ff470e13_fk_catalogue` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`),
   CONSTRAINT `catalogue_product_pr_product_id_ad2b46bd_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -996,22 +996,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productattribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   `type` varchar(20) NOT NULL,
   `required` tinyint(1) NOT NULL,
-  `option_group_id` int(11) DEFAULT NULL,
-  `product_class_id` int(11) DEFAULT NULL,
+  `option_group_id` int DEFAULT NULL,
+  `product_class_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `catalogue_productattribute_code_9ffea293` (`code`),
   KEY `catalogue_productatt_product_class_id_7af808ec_fk_catalogue` (`product_class_id`),
   KEY `catalogue_productatt_option_group_id_6b422dc2_fk_catalogue` (`option_group_id`),
   CONSTRAINT `catalogue_productatt_option_group_id_6b422dc2_fk_catalogue` FOREIGN KEY (`option_group_id`) REFERENCES `catalogue_attributeoptiongroup` (`id`),
   CONSTRAINT `catalogue_productatt_product_class_id_7af808ec_fk_catalogue` FOREIGN KEY (`product_class_id`) REFERENCES `catalogue_productclass` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1020,7 +1020,7 @@ CREATE TABLE `catalogue_productattribute` (
 
 LOCK TABLES `catalogue_productattribute` WRITE;
 /*!40000 ALTER TABLE `catalogue_productattribute` DISABLE KEYS */;
-INSERT INTO `catalogue_productattribute` VALUES (1,'course_key','course_key','text',1,NULL,1),(2,'id_verification_required','id_verification_required','boolean',0,NULL,1),(3,'certificate_type','certificate_type','text',0,NULL,1),(4,'credit_provider','credit_provider','text',0,NULL,1),(5,'credit_hours','credit_hours','integer',0,NULL,1),(6,'Coupon vouchers','coupon_vouchers','entity',1,NULL,2),(7,'Note','note','text',0,NULL,2),(8,'Course Key','course_key','text',1,NULL,3),(9,'Seat Type','seat_type','text',1,NULL,3),(10,'id_verification_required','id_verification_required','boolean',0,NULL,3),(11,'UUID','UUID','text',1,NULL,4),(12,'certificate_type','certificate_type','text',0,NULL,4),(13,'id_verification_required','id_verification_required','boolean',0,NULL,4),(15,'Notification Email','notify_email','text',0,NULL,2),(16,'Enterprise Customer UUID','enterprise_customer_uuid','text',0,NULL,2),(17,'Enterprise Contract Metadata','enterprise_contract_metadata','entity',0,NULL,2),(18,'Inactive','inactive','boolean',0,NULL,2),(19,'Sales Force ID','sales_force_id','text',0,NULL,2),(20,'Is Public Code?','is_public_code','boolean',0,NULL,2),(21,'variant_id','variant_id','text',0,NULL,4);
+INSERT INTO `catalogue_productattribute` VALUES (1,'course_key','course_key','text',1,NULL,1),(2,'id_verification_required','id_verification_required','boolean',0,NULL,1),(3,'certificate_type','certificate_type','text',0,NULL,1),(4,'credit_provider','credit_provider','text',0,NULL,1),(5,'credit_hours','credit_hours','integer',0,NULL,1),(6,'Coupon vouchers','coupon_vouchers','entity',1,NULL,2),(7,'Note','note','text',0,NULL,2),(8,'Course Key','course_key','text',1,NULL,3),(9,'Seat Type','seat_type','text',1,NULL,3),(10,'id_verification_required','id_verification_required','boolean',0,NULL,3),(11,'UUID','UUID','text',1,NULL,4),(12,'certificate_type','certificate_type','text',0,NULL,4),(13,'id_verification_required','id_verification_required','boolean',0,NULL,4),(15,'Notification Email','notify_email','text',0,NULL,2),(16,'Enterprise Customer UUID','enterprise_customer_uuid','text',0,NULL,2),(17,'Enterprise Contract Metadata','enterprise_contract_metadata','entity',0,NULL,2),(18,'Inactive','inactive','boolean',0,NULL,2),(19,'Sales Force ID','sales_force_id','text',0,NULL,2),(20,'Is Public Code?','is_public_code','boolean',0,NULL,2),(21,'variant_id','variant_id','text',0,NULL,4),(22,'Salesforce Opportunity Line Item','salesforce_opportunity_line_item','text',1,NULL,2);
 /*!40000 ALTER TABLE `catalogue_productattribute` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1029,22 +1029,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productattributevalue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `value_text` longtext,
-  `value_integer` int(11) DEFAULT NULL,
+  `value_integer` int DEFAULT NULL,
   `value_boolean` tinyint(1) DEFAULT NULL,
   `value_float` double DEFAULT NULL,
   `value_richtext` longtext,
   `value_date` date DEFAULT NULL,
   `value_file` varchar(255) DEFAULT NULL,
   `value_image` varchar(255) DEFAULT NULL,
-  `entity_object_id` int(10) unsigned DEFAULT NULL,
-  `attribute_id` int(11) NOT NULL,
-  `entity_content_type_id` int(11) DEFAULT NULL,
-  `product_id` int(11) NOT NULL,
-  `value_option_id` int(11) DEFAULT NULL,
+  `entity_object_id` int unsigned DEFAULT NULL,
+  `attribute_id` int NOT NULL,
+  `entity_content_type_id` int DEFAULT NULL,
+  `product_id` int NOT NULL,
+  `value_option_id` int DEFAULT NULL,
   `value_datetime` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_productattribu_attribute_id_product_id_1e8e7112_uniq` (`attribute_id`,`product_id`),
@@ -1060,7 +1060,7 @@ CREATE TABLE `catalogue_productattributevalue` (
   CONSTRAINT `catalogue_productatt_entity_content_type__f7186ab5_fk_django_co` FOREIGN KEY (`entity_content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `catalogue_productatt_product_id_a03cd90e_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `catalogue_productatt_value_option_id_21026066_fk_catalogue` FOREIGN KEY (`value_option_id`) REFERENCES `catalogue_attributeoption` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1078,17 +1078,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productattributevalue_value_multi_option` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `productattributevalue_id` int(11) NOT NULL,
-  `attributeoption_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `productattributevalue_id` int NOT NULL,
+  `attributeoption_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_productattribu_productattributevalue_id_a1760824_uniq` (`productattributevalue_id`,`attributeoption_id`),
   KEY `catalogue_productatt_attributeoption_id_962b600b_fk_catalogue` (`attributeoption_id`),
   CONSTRAINT `catalogue_productatt_attributeoption_id_962b600b_fk_catalogue` FOREIGN KEY (`attributeoption_id`) REFERENCES `catalogue_attributeoption` (`id`),
   CONSTRAINT `catalogue_productatt_productattributevalu_9c7c031e_fk_catalogue` FOREIGN KEY (`productattributevalue_id`) REFERENCES `catalogue_productattributevalue` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1105,17 +1105,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productcategory` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category_id` int NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_productcategory_product_id_category_id_8f0dbfe2_uniq` (`product_id`,`category_id`),
   KEY `catalogue_productcat_category_id_176db535_fk_catalogue` (`category_id`),
   CONSTRAINT `catalogue_productcat_category_id_176db535_fk_catalogue` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
   CONSTRAINT `catalogue_productcat_product_id_846a4061_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1133,16 +1133,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productclass` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `slug` varchar(128) NOT NULL,
   `requires_shipping` tinyint(1) NOT NULL,
   `track_stock` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1160,17 +1160,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productclass_options` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `productclass_id` int(11) NOT NULL,
-  `option_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `productclass_id` int NOT NULL,
+  `option_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_productclass_o_productclass_id_option_i_2266c635_uniq` (`productclass_id`,`option_id`),
   KEY `catalogue_productcla_option_id_b099542c_fk_catalogue` (`option_id`),
   CONSTRAINT `catalogue_productcla_option_id_b099542c_fk_catalogue` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`),
   CONSTRAINT `catalogue_productcla_productclass_id_732df4c8_fk_catalogue` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1187,19 +1187,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productimage` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `original` varchar(255) NOT NULL,
   `caption` varchar(200) NOT NULL,
-  `display_order` int(10) unsigned NOT NULL,
+  `display_order` int unsigned NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `catalogue_productimage_product_id_49474fe8` (`product_id`),
   KEY `catalogue_productimage_display_order_9fa741ac` (`display_order`),
   CONSTRAINT `catalogue_productima_product_id_49474fe8_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1216,19 +1216,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `catalogue_productrecommendation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ranking` smallint(5) unsigned NOT NULL,
-  `primary_id` int(11) NOT NULL,
-  `recommendation_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ranking` smallint unsigned NOT NULL,
+  `primary_id` int NOT NULL,
+  `recommendation_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `catalogue_productrecomme_primary_id_recommendatio_da1fdf43_uniq` (`primary_id`,`recommendation_id`),
   KEY `catalogue_productrec_recommendation_id_daf8ae95_fk_catalogue` (`recommendation_id`),
   KEY `catalogue_productrecommendation_ranking_e7a0f7fd` (`ranking`),
   CONSTRAINT `catalogue_productrec_primary_id_6e51a55c_fk_catalogue` FOREIGN KEY (`primary_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `catalogue_productrec_recommendation_id_daf8ae95_fk_catalogue` FOREIGN KEY (`recommendation_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1245,9 +1245,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `communication_communicationeventtype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(128) NOT NULL,
   `name` varchar(255) NOT NULL,
   `category` varchar(255) NOT NULL,
@@ -1259,7 +1259,7 @@ CREATE TABLE `communication_communicationeventtype` (
   `date_updated` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1276,19 +1276,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `communication_email` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(254) DEFAULT NULL,
   `subject` longtext NOT NULL,
   `body_text` longtext NOT NULL,
   `body_html` longtext NOT NULL,
   `date_sent` datetime(6) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `communication_email_user_id_a6eae16a_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `communication_email_user_id_a6eae16a_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1305,22 +1305,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `communication_notification` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `subject` varchar(255) NOT NULL,
   `body` longtext NOT NULL,
   `location` varchar(32) NOT NULL,
   `date_sent` datetime(6) NOT NULL,
   `date_read` datetime(6) DEFAULT NULL,
-  `recipient_id` int(11) NOT NULL,
-  `sender_id` int(11) DEFAULT NULL,
+  `recipient_id` int NOT NULL,
+  `sender_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `communication_notifi_recipient_id_2f83b142_fk_ecommerce` (`recipient_id`),
   KEY `communication_notifi_sender_id_f1fdd4c8_fk_ecommerce` (`sender_id`),
   CONSTRAINT `communication_notifi_recipient_id_2f83b142_fk_ecommerce` FOREIGN KEY (`recipient_id`) REFERENCES `ecommerce_user` (`id`),
   CONSTRAINT `communication_notifi_sender_id_f1fdd4c8_fk_ecommerce` FOREIGN KEY (`sender_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1337,14 +1337,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_businessclient` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `enterprise_customer_uuid` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1361,12 +1361,12 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_client` (
-  `user_ptr_id` int(11) NOT NULL,
+  `user_ptr_id` int NOT NULL,
   PRIMARY KEY (`user_ptr_id`),
   CONSTRAINT `core_client_user_ptr_id_e5908bcf_fk_ecommerce_user_id` FOREIGN KEY (`user_ptr_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1383,16 +1383,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_ecommercefeaturerole` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `name` varchar(255) NOT NULL,
   `description` longtext,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1410,13 +1410,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_ecommercefeatureroleassignment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `role_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `enterprise_id` char(32) DEFAULT NULL,
   `applies_to_all_contexts` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
@@ -1424,7 +1424,7 @@ CREATE TABLE `core_ecommercefeatureroleassignment` (
   KEY `core_ecommercefeatur_user_id_f692628b_fk_ecommerce` (`user_id`),
   CONSTRAINT `core_ecommercefeatur_role_id_e8057cdb_fk_core_ecom` FOREIGN KEY (`role_id`) REFERENCES `core_ecommercefeaturerole` (`id`),
   CONSTRAINT `core_ecommercefeatur_user_id_f692628b_fk_ecommerce` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1441,22 +1441,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_historicalbusinessclient` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `enterprise_customer_uuid` char(32) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `core_historicalbusin_history_user_id_c003ab66_fk_ecommerce` (`history_user_id`),
   KEY `core_historicalbusinessclient_id_1f2c8e41` (`id`),
   KEY `core_historicalbusinessclient_name_3c807144` (`name`),
   CONSTRAINT `core_historicalbusin_history_user_id_c003ab66_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1473,14 +1473,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `core_siteconfiguration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `lms_url_root` varchar(200) NOT NULL,
   `theme_scss_path` varchar(255) DEFAULT NULL,
   `payment_processors` varchar(255) NOT NULL,
-  `partner_id` int(11) NOT NULL,
-  `site_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
+  `site_id` int NOT NULL,
   `oauth_settings` longtext NOT NULL,
   `segment_key` varchar(255) DEFAULT NULL,
   `from_email` varchar(255) DEFAULT NULL,
@@ -1510,7 +1510,7 @@ CREATE TABLE `core_siteconfiguration` (
   KEY `core_siteconfiguration_partner_id_75739217` (`partner_id`),
   CONSTRAINT `core_siteconfiguration_partner_id_75739217_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `core_siteconfiguration_site_id_3124a87d_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1528,22 +1528,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `courses_course` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `thumbnail_url` varchar(200) DEFAULT NULL,
   `verification_deadline` datetime(6) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   `created` datetime(6) DEFAULT NULL,
   `modified` datetime(6) DEFAULT NULL,
-  `partner_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `courses_course_site_id_af38aac5_fk_django_site_id` (`site_id`),
   KEY `courses_course_partner_id_a64c9b38_fk_partner_partner_id` (`partner_id`),
   CONSTRAINT `courses_course_partner_id_a64c9b38_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `courses_course_site_id_af38aac5_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1552,7 +1552,7 @@ CREATE TABLE `courses_course` (
 
 LOCK TABLES `courses_course` WRITE;
 /*!40000 ALTER TABLE `courses_course` DISABLE KEYS */;
-INSERT INTO `courses_course` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',NULL,'2025-02-20 14:41:58.376814',NULL,'2021-07-30 20:19:59.095039','2023-02-21 14:41:58.392528',1);
+INSERT INTO `courses_course` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course',NULL,'2025-11-09 22:32:45.558795',NULL,'2021-07-30 20:19:59.095039','2023-11-10 22:32:45.737192',1);
 /*!40000 ALTER TABLE `courses_course` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1561,7 +1561,7 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `courses_historicalcourse` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -1569,20 +1569,20 @@ CREATE TABLE `courses_historicalcourse` (
   `created` datetime(6) DEFAULT NULL,
   `modified` datetime(6) DEFAULT NULL,
   `thumbnail_url` varchar(200) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `courses_historicalco_history_user_id_5aca3c34_fk_ecommerce` (`history_user_id`),
   KEY `courses_historicalcourse_id_ef83d5ac` (`id`),
   KEY `courses_historicalcourse_partner_id_c09fe2b8` (`partner_id`),
   KEY `courses_historicalcourse_site_id_dfff3795` (`site_id`),
   CONSTRAINT `courses_historicalco_history_user_id_5aca3c34_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1591,7 +1591,7 @@ CREATE TABLE `courses_historicalcourse` (
 
 LOCK TABLES `courses_historicalcourse` WRITE;
 /*!40000 ALTER TABLE `courses_historicalcourse` DISABLE KEYS */;
-INSERT INTO `courses_historicalcourse` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2023-07-30 20:19:59.064405','2021-07-30 20:19:59.095039','2021-07-30 20:19:59.095058',NULL,1,'2021-07-30 20:19:59.095505',NULL,'+',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2025-02-09 18:45:44.397877','2021-07-30 20:19:59.095039','2023-02-10 18:45:44.416055',NULL,2,'2023-02-10 18:45:44.417502',NULL,'~',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2025-02-20 14:41:58.376814','2021-07-30 20:19:59.095039','2023-02-21 14:41:58.392528',NULL,3,'2023-02-21 14:41:58.395033',NULL,'~',NULL,1,NULL);
+INSERT INTO `courses_historicalcourse` VALUES ('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2023-07-30 20:19:59.064405','2021-07-30 20:19:59.095039','2021-07-30 20:19:59.095058',NULL,1,'2021-07-30 20:19:59.095505',NULL,'+',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2025-02-09 18:45:44.397877','2021-07-30 20:19:59.095039','2023-02-10 18:45:44.416055',NULL,2,'2023-02-10 18:45:44.417502',NULL,'~',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2025-02-20 14:41:58.376814','2021-07-30 20:19:59.095039','2023-02-21 14:41:58.392528',NULL,3,'2023-02-21 14:41:58.395033',NULL,'~',NULL,1,NULL),('course-v1:edX+DemoX+Demo_Course','edX Demonstration Course','2025-11-09 22:32:45.558795','2021-07-30 20:19:59.095039','2023-11-10 22:32:45.737192',NULL,4,'2023-11-10 22:32:45.738647',NULL,'~',NULL,1,NULL);
 /*!40000 ALTER TABLE `courses_historicalcourse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1600,9 +1600,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customer_productalert` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(254) NOT NULL,
   `key` varchar(128) NOT NULL,
   `status` varchar(20) NOT NULL,
@@ -1610,8 +1610,8 @@ CREATE TABLE `customer_productalert` (
   `date_confirmed` datetime(6) DEFAULT NULL,
   `date_cancelled` datetime(6) DEFAULT NULL,
   `date_closed` datetime(6) DEFAULT NULL,
-  `product_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `product_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `customer_productaler_product_id_7e529a41_fk_catalogue` (`product_id`),
   KEY `customer_productalert_user_id_677ad6d6_fk_ecommerce_user_id` (`user_id`),
@@ -1619,7 +1619,7 @@ CREATE TABLE `customer_productalert` (
   KEY `customer_productalert_key_a26f3bdc` (`key`),
   CONSTRAINT `customer_productaler_product_id_7e529a41_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `customer_productalert_user_id_677ad6d6_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1636,22 +1636,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `action_time` datetime(6) NOT NULL,
   `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
-  `action_flag` smallint(5) unsigned NOT NULL,
+  `action_flag` smallint unsigned NOT NULL,
   `change_message` longtext NOT NULL,
-  `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
+  `content_type_id` int DEFAULT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `django_admin_log_content_type_id_c4bce8eb_fk_django_co` (`content_type_id`),
   KEY `django_admin_log_user_id_c564eba6_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1668,14 +1668,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=157 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1693,9 +1693,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_flatpage` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `url` varchar(100) NOT NULL,
   `title` varchar(200) NOT NULL,
   `content` longtext NOT NULL,
@@ -1704,7 +1704,7 @@ CREATE TABLE `django_flatpage` (
   `registration_required` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `django_flatpage_url_41612362` (`url`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1721,17 +1721,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_flatpage_sites` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `flatpage_id` int(11) NOT NULL,
-  `site_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `flatpage_id` int NOT NULL,
+  `site_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_flatpage_sites_flatpage_id_site_id_0d29d9d1_uniq` (`flatpage_id`,`site_id`),
   KEY `django_flatpage_sites_site_id_bfd8ea84_fk_django_site_id` (`site_id`),
   CONSTRAINT `django_flatpage_sites_flatpage_id_078bbc8b_fk_django_flatpage_id` FOREIGN KEY (`flatpage_id`) REFERENCES `django_flatpage` (`id`),
   CONSTRAINT `django_flatpage_sites_site_id_bfd8ea84_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1748,14 +1748,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_migrations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=400 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=408 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1764,7 +1764,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2021-07-30 20:16:49.194661'),(2,'auth','0001_initial','2021-07-30 20:16:49.260236'),(3,'core','0001_initial','2021-07-30 20:16:49.433072'),(4,'address','0001_initial','2021-07-30 20:16:49.656461'),(5,'address','0002_auto_20150927_1547','2021-07-30 20:16:49.797240'),(6,'address','0003_auto_20150927_1551','2021-07-30 20:16:49.825385'),(7,'address','0004_auto_20170226_1122','2021-07-30 20:16:49.846392'),(8,'address','0005_regenerate_user_address_hashes','2021-07-30 20:16:49.862673'),(9,'address','0006_auto_20181115_1953','2021-07-30 20:16:49.882139'),(10,'admin','0001_initial','2021-07-30 20:16:49.997619'),(11,'admin','0002_logentry_remove_auto_add','2021-07-30 20:16:50.057639'),(12,'admin','0003_logentry_add_action_flag_choices','2021-07-30 20:16:50.070231'),(13,'catalogue','0001_initial','2021-07-30 20:16:50.665573'),(14,'analytics','0001_initial','2021-07-30 20:16:51.314013'),(15,'analytics','0002_auto_20140827_1705','2021-07-30 20:16:51.541130'),(16,'contenttypes','0002_remove_content_type_name','2021-07-30 20:16:51.703335'),(17,'auth','0002_alter_permission_name_max_length','2021-07-30 20:16:51.738682'),(18,'auth','0003_alter_user_email_max_length','2021-07-30 20:16:51.750804'),(19,'auth','0004_alter_user_username_opts','2021-07-30 20:16:51.764965'),(20,'auth','0005_alter_user_last_login_null','2021-07-30 20:16:51.778120'),(21,'auth','0006_require_contenttypes_0002','2021-07-30 20:16:51.784387'),(22,'auth','0007_alter_validators_add_error_messages','2021-07-30 20:16:51.797880'),(23,'auth','0008_alter_user_username_max_length','2021-07-30 20:16:51.810602'),(24,'auth','0009_alter_user_last_name_max_length','2021-07-30 20:16:51.822770'),(25,'auth','0010_alter_group_name_max_length','2021-07-30 20:16:51.859872'),(26,'auth','0011_update_proxy_permissions','2021-07-30 20:16:51.889191'),(27,'waffle','0001_initial','2021-07-30 20:16:51.982858'),(28,'sites','0001_initial','2021-07-30 20:16:52.144381'),(29,'partner','0001_initial','2021-07-30 20:16:52.503890'),(30,'customer','0001_initial','2021-07-30 20:16:52.863083'),(31,'basket','0001_initial','2021-07-30 20:16:53.059798'),(32,'basket','0002_auto_20140827_1705','2021-07-30 20:16:53.388943'),(33,'order','0001_initial','2021-07-30 20:16:55.639963'),(34,'offer','0001_initial','2021-07-30 20:16:56.919863'),(35,'voucher','0001_initial','2021-07-30 20:16:57.466038'),(36,'basket','0003_basket_vouchers','2021-07-30 20:16:57.819643'),(37,'basket','0004_auto_20141007_2032','2021-07-30 20:16:57.914784'),(38,'basket','0005_auto_20150709_1205','2021-07-30 20:16:58.037508'),(39,'basket','0006_basket_site','2021-07-30 20:16:58.116112'),(40,'basket','0007_auto_20160907_2040','2021-07-30 20:16:58.304516'),(41,'basket','0008_auto_20170215_2224','2021-07-30 20:16:58.382415'),(42,'basket','0009_auto_20170215_2229','2021-07-30 20:16:58.417737'),(43,'basket','0010_create_repeat_purchase_switch','2021-07-30 20:16:58.485719'),(44,'basket','0011_add_email_basket_attribute_type','2021-07-30 20:16:58.557257'),(45,'basket','0012_add_purchaser_basket_attribute','2021-07-30 20:16:58.630883'),(46,'basket','0013_auto_20200305_1448','2021-07-30 20:16:58.816174'),(47,'sites','0002_alter_domain_unique','2021-07-30 20:16:58.838016'),(48,'partner','0002_auto_20141007_2032','2021-07-30 20:16:58.869836'),(49,'partner','0003_auto_20150223_1130','2021-07-30 20:16:58.874183'),(50,'courses','0001_initial','2021-07-30 20:16:58.894953'),(51,'catalogue','0002_auto_20150223_1052','2021-07-30 20:16:58.971694'),(52,'catalogue','0003_product_course','2021-07-30 20:16:59.056059'),(53,'catalogue','0004_auto_20150609_0129','2021-07-30 20:16:59.403109'),(54,'partner','0004_auto_20150609_1215','2021-07-30 20:16:59.785451'),(55,'partner','0005_auto_20150610_1355','2021-07-30 20:17:00.196282'),(56,'partner','0006_auto_20150709_1205','2021-07-30 20:17:00.316042'),(57,'partner','0007_auto_20150914_0841','2021-07-30 20:17:00.470922'),(58,'partner','0008_auto_20150914_1057','2021-07-30 20:17:00.527657'),(59,'partner','0009_partner_enable_sailthru','2021-07-30 20:17:00.587956'),(60,'partner','0010_auto_20161025_1446','2021-07-30 20:17:00.624439'),(61,'partner','0011_auto_20170525_2138','2021-07-30 20:17:00.660408'),(62,'partner','0012_auto_20180119_0903','2021-07-30 20:17:00.922927'),(63,'partner','0013_partner_default_site','2021-07-30 20:17:01.226821'),(64,'courses','0002_historicalcourse','2021-07-30 20:17:01.325893'),(65,'courses','0003_auto_20150618_1108','2021-07-30 20:17:01.435088'),(66,'courses','0004_auto_20150803_1406','2021-07-30 20:17:01.512385'),(67,'courses','0005_auto_20170525_0131','2021-07-30 20:17:01.801507'),(68,'courses','0006_auto_20171204_1036','2021-07-30 20:17:02.020721'),(69,'courses','0007_auto_20180119_0903','2021-07-30 20:17:02.349246'),(70,'courses','0008_course_partner','2021-07-30 20:17:02.421005'),(71,'courses','0009_allow_site_to_be_nullable','2021-07-30 20:17:02.554504'),(72,'courses','0010_migrate_partner_data_to_courses','2021-07-30 20:17:02.729304'),(73,'catalogue','0005_auto_20150610_1355','2021-07-30 20:17:03.078444'),(74,'catalogue','0006_credit_provider_attr','2021-07-30 20:17:03.158892'),(75,'catalogue','0007_auto_20150709_1205','2021-07-30 20:17:03.562848'),(76,'catalogue','0008_auto_20150709_1254','2021-07-30 20:17:03.685735'),(77,'catalogue','0009_credit_hours_attr','2021-07-30 20:17:03.764861'),(78,'catalogue','0010_catalog','2021-07-30 20:17:03.851121'),(79,'catalogue','0011_auto_20151019_0639','2021-07-30 20:17:04.052535'),(80,'catalogue','0012_enrollment_code_product_class','2021-07-30 20:17:04.056220'),(81,'catalogue','0013_coupon_product_class','2021-07-30 20:17:04.216020'),(82,'catalogue','0014_alter_couponvouchers_attribute','2021-07-30 20:17:04.297883'),(83,'catalogue','0015_default_categories','2021-07-30 20:17:04.466240'),(84,'catalogue','0016_coupon_note_attribute','2021-07-30 20:17:04.717186'),(85,'catalogue','0017_enrollment_code_product_class','2021-07-30 20:17:04.800080'),(86,'catalogue','0018_auto_20160530_0134','2021-07-30 20:17:04.831745'),(87,'catalogue','0019_enrollment_code_idverifyreq_attribute','2021-07-30 20:17:04.910819'),(88,'catalogue','0020_auto_20161025_1446','2021-07-30 20:17:04.943953'),(89,'catalogue','0021_auto_20170215_2224','2021-07-30 20:17:04.993195'),(90,'catalogue','0022_auto_20170215_2229','2021-07-30 20:17:05.010770'),(91,'catalogue','0023_auto_20170215_2234','2021-07-30 20:17:05.069002'),(92,'catalogue','0024_fix_enrollment_code_slug','2021-07-30 20:17:05.148215'),(93,'catalogue','0025_course_entitlement','2021-07-30 20:17:05.229733'),(94,'catalogue','0026_course_entitlement_attr_change','2021-07-30 20:17:05.314857'),(95,'catalogue','0027_catalogue_entitlement_option','2021-07-30 20:17:05.395164'),(96,'catalogue','0028_donations_from_checkout_tests_product_type','2021-07-30 20:17:05.648516'),(97,'catalogue','0029_auto_20180119_0903','2021-07-30 20:17:06.364082'),(98,'catalogue','0030_auto_20180124_1131','2021-07-30 20:17:06.786216'),(99,'catalogue','0031_course_entitlement_idverifyreq_attr','2021-07-30 20:17:06.931878'),(100,'catalogue','0032_journal_product_class','2021-07-30 20:17:07.012020'),(101,'catalogue','0033_add_coupon_categories','2021-07-30 20:17:07.105599'),(102,'catalogue','0034_add_on_campus_coupon_category','2021-07-30 20:17:07.183995'),(103,'catalogue','0035_add_partner_no_rev_coupon_categories','2021-07-30 20:17:07.270941'),(104,'catalogue','0036_coupon_notify_email_attribute','2021-07-30 20:17:07.356001'),(105,'catalogue','0037_add_sec_disc_reward_coupon_category','2021-07-30 20:17:07.434505'),(106,'catalogue','0038_coupon_enterprise_id_attribute','2021-07-30 20:17:07.646486'),(107,'catalogue','0039_historicalproduct_historicalproductattributevalue','2021-07-30 20:17:07.806947'),(108,'catalogue','0040_historicalcategory_historicaloption_historicalproductattribute_historicalproductcategory_historicalp','2021-07-30 20:17:08.335574'),(109,'catalogue','0041_auto_20190903_1752','2021-07-30 20:17:08.627472'),(110,'catalogue','0042_auto_20190913_1756','2021-07-30 20:17:08.725655'),(111,'catalogue','0043_auto_20191115_2151','2021-07-30 20:17:09.105814'),(112,'catalogue','0044_add_enterprisecontractmetadata_product_attribute','2021-07-30 20:17:09.189513'),(113,'catalogue','0045_add_edx_employee_coupon_category','2021-07-30 20:17:09.278502'),(114,'catalogue','0046_coupon_inactive_attribute','2021-07-30 20:17:09.362880'),(115,'catalogue','0047_coupon_sales_force_id_attribute','2021-07-30 20:17:09.446311'),(116,'catalogue','0048_auto_20200311_1240','2021-07-30 20:17:10.371833'),(117,'catalogue','0049_add_rap_and_orap_coupon_categories','2021-07-30 20:17:10.469517'),(118,'catalogue','0050_add_b2b_affiliate_promotion_coupon_category','2021-07-30 20:17:10.554442'),(119,'catalogue','0051_coupon_public_batch_attribute','2021-07-30 20:17:10.638875'),(120,'catalogue','0052_add_scholarship_coupon_category','2021-07-30 20:17:10.726740'),(121,'core','0002_auto_20150826_1455','2021-07-30 20:17:11.230512'),(122,'core','0003_auto_20150914_1120','2021-07-30 20:17:11.343490'),(123,'core','0004_auto_20150915_1023','2021-07-30 20:17:11.506439'),(124,'core','0005_auto_20150924_0123','2021-07-30 20:17:11.599476'),(125,'core','0006_add_service_user','2021-07-30 20:17:11.693067'),(126,'core','0007_auto_20151005_1333','2021-07-30 20:17:11.782329'),(127,'core','0008_client','2021-07-30 20:17:11.858742'),(128,'core','0009_service_user_privileges','2021-07-30 20:17:12.216879'),(129,'core','0010_add_async_sample','2021-07-30 20:17:12.313580'),(130,'core','0011_siteconfiguration_oauth_settings','2021-07-30 20:17:12.359520'),(131,'core','0012_businessclient','2021-07-30 20:17:12.382414'),(132,'core','0013_siteconfiguration_segment_key','2021-07-30 20:17:12.621371'),(133,'core','0014_enrollment_code_switch','2021-07-30 20:17:12.714586'),(134,'core','0015_siteconfiguration_from_email','2021-07-30 20:17:12.760442'),(135,'core','0016_siteconfiguration_enable_enrollment_codes','2021-07-30 20:17:12.808945'),(136,'core','0017_siteconfiguration_payment_support_email','2021-07-30 20:17:12.854367'),(137,'core','0018_siteconfiguration_payment_support_url','2021-07-30 20:17:12.910659'),(138,'core','0019_auto_20161012_1404','2021-07-30 20:17:12.999343'),(139,'core','0020_siteconfiguration_enable_otto_receipt_page','2021-07-30 20:17:13.047548'),(140,'core','0021_siteconfiguration_client_side_payment_processor','2021-07-30 20:17:13.102269'),(141,'core','0022_auto_20161108_2101','2021-07-30 20:17:13.123907'),(142,'core','0023_siteconfiguration_send_refund_notifications','2021-07-30 20:17:13.171770'),(143,'core','0024_auto_20170208_1520','2021-07-30 20:17:13.358240'),(144,'core','0025_auto_20170214_0003','2021-07-30 20:17:13.379364'),(145,'core','0026_auto_20170215_2234','2021-07-30 20:17:13.402599'),(146,'core','0027_siteconfiguration_require_account_activation','2021-07-30 20:17:13.451260'),(147,'core','0028_siteconfiguration_optimizely_snippet_src','2021-07-30 20:17:13.502116'),(148,'core','0029_auto_20170525_2131','2021-07-30 20:17:13.544106'),(149,'core','0030_auto_20170525_2134','2021-07-30 20:17:13.686691'),(150,'core','0031_siteconfiguration_enable_sailthru','2021-07-30 20:17:13.813149'),(151,'core','0032_auto_20170602_0516','2021-07-30 20:17:13.865486'),(152,'core','0033_auto_20170606_0539','2021-07-30 20:17:13.958301'),(153,'core','0034_auto_20170613_2039','2021-07-30 20:17:13.977238'),(154,'core','0035_siteconfiguration_base_cookie_domain','2021-07-30 20:17:14.024043'),(155,'core','0036_remove_siteconfiguration_enable_otto_receipt_page','2021-07-30 20:17:14.072387'),(156,'core','0037_siteconfiguration_enable_embargo_check','2021-07-30 20:17:14.115852'),(157,'core','0038_siteconfiguration_discovery_api_url','2021-07-30 20:17:14.161930'),(158,'core','0039_auto_20170716_2212','2021-07-30 20:17:14.218974'),(159,'core','0040_siteconfiguration__allowed_segment_events','2021-07-30 20:17:14.260483'),(160,'core','0041_remove_siteconfiguration__allowed_segment_events','2021-07-30 20:17:14.302926'),(161,'core','0042_siteconfiguration_enable_partial_program','2021-07-30 20:17:14.346638'),(162,'core','0043_auto_20170808_1009','2021-07-30 20:17:14.366544'),(163,'core','0044_auto_20180313_0702','2021-07-30 20:17:14.455915'),(164,'core','0045_auto_20180510_0823','2021-07-30 20:17:14.788323'),(165,'core','0046_siteconfiguration_journals_api_url','2021-07-30 20:17:14.825376'),(166,'core','0047_businessclient_enterprise_customer_uuid','2021-07-30 20:17:14.851039'),(167,'core','0048_siteconfiguration_hubspot_secret_key','2021-07-30 20:17:14.890022'),(168,'core','0049_ecommercefeaturerole_ecommercefeatureroleassignment','2021-07-30 20:17:14.978917'),(169,'core','0050_add_specific_ecommerce_roles','2021-07-30 20:17:15.131588'),(170,'core','0051_ecommercefeatureroleassignment_enterprise_id','2021-07-30 20:17:15.194762'),(171,'core','0052_historicalbusinessclient','2021-07-30 20:17:15.269304'),(172,'core','0053_user_lms_user_id','2021-07-30 20:17:15.408410'),(173,'core','0054_auto_20190626_0153','2021-07-30 20:17:15.492475'),(174,'core','0055_add_ordermanager_role','2021-07-30 20:17:15.588357'),(175,'core','0056_remove_siteconfiguration_journals_api_url','2021-07-30 20:17:15.629972'),(176,'core','0057_auto_20190920_1752','2021-07-30 20:17:15.669390'),(177,'core','0058_auto_20191115_2151','2021-07-30 20:17:15.812635'),(178,'core','0059_auto_20200115_1941','2021-07-30 20:17:15.933367'),(179,'core','0060_auto_20200117_1312','2021-07-30 20:17:16.023025'),(180,'core','0061_auto_20200407_1725','2021-07-30 20:17:16.097708'),(181,'core','0062_siteconfiguration_account_microfrontend_url','2021-07-30 20:17:16.140351'),(182,'core','0063_braze_switch','2021-07-30 20:17:16.238805'),(183,'core','0064_remove_siteconfiguration_enable_sailthru','2021-07-30 20:17:16.281954'),(184,'core','0065_ecommercefeatureroleassignment_applies_to_all_contexts','2021-07-30 20:17:16.332198'),(185,'partner','0014_historicalstockrecord','2021-07-30 20:17:16.641422'),(186,'courses','0011_historicalcourse','2021-07-30 20:17:16.789322'),(187,'courses','0012_auto_20191115_2151','2021-07-30 20:17:16.869522'),(188,'customer','0002_auto_20160517_0930','2021-07-30 20:17:16.882571'),(189,'customer','0003_auto_20170215_2229','2021-07-30 20:17:16.942368'),(190,'customer','0004_auto_20180124_1131','2021-07-30 20:17:17.109865'),(191,'customer','0005_auto_20191115_2151','2021-07-30 20:17:17.122314'),(192,'customer','0006_auto_20200305_1448','2021-07-30 20:17:17.163547'),(193,'offer','0002_range_catalog','2021-07-30 20:17:17.253092'),(194,'offer','0003_auto_20160517_1247','2021-07-30 20:17:17.390944'),(195,'offer','0004_auto_20160530_0944','2021-07-30 20:17:17.455365'),(196,'offer','0005_conditionaloffer_email_domains','2021-07-30 20:17:17.498385'),(197,'offer','0006_auto_20161025_1446','2021-07-30 20:17:17.535190'),(198,'offer','0007_auto_20161026_0856','2021-07-30 20:17:17.600557'),(199,'offer','0008_range_course_catalog','2021-07-30 20:17:17.661890'),(200,'offer','0009_range_enterprise_customer','2021-07-30 20:17:17.721439'),(201,'offer','0010_auto_20170215_2224','2021-07-30 20:17:17.750983'),(202,'offer','0011_auto_20170215_2324','2021-07-30 20:17:17.785650'),(203,'offer','0012_condition_program_uuid','2021-07-30 20:17:17.826181'),(204,'enterprise','0001_initial','2021-07-30 20:17:17.844590'),(205,'enterprise','0002_add_enterprise_offers_switch','2021-07-30 20:17:17.944882'),(206,'enterprise','0003_add_enable_enterprise_switch','2021-07-30 20:17:18.041652'),(207,'enterprise','0004_add_enterprise_offers_for_coupons','2021-07-30 20:17:18.367904'),(208,'enterprise','0005_assignableenterprisecustomercondition','2021-07-30 20:17:18.379443'),(209,'enterprise','0006_add_role_based_authz_switch','2021-07-30 20:17:18.475535'),(210,'enterprise','0007_remove_role_based_authz_switch','2021-07-30 20:17:18.570659'),(211,'enterprise','0008_remove_enterprise_offers_switch','2021-07-30 20:17:18.663538'),(212,'enterprise','0009_remove_enterprise_offers_for_coupons','2021-07-30 20:17:18.754708'),(213,'enterprise','0010_add_use_enterprise_catalog_flag','2021-07-30 20:17:18.852675'),(214,'enterprise','0011_remove_use_enterprise_catalog_flag','2021-07-30 20:17:18.951563'),(215,'flatpages','0001_initial','2021-07-30 20:17:19.044870'),(216,'fulfillment','0001_initial','2021-07-30 20:17:19.226797'),(217,'order','0002_auto_20141007_2032','2021-07-30 20:17:19.272491'),(218,'order','0003_auto_20150224_1520','2021-07-30 20:17:19.611465'),(219,'order','0004_order_payment_processor','2021-07-30 20:17:19.684366'),(220,'order','0005_deprecate_order_payment_processor','2021-07-30 20:17:19.753185'),(221,'order','0006_paymentevent_processor_name','2021-07-30 20:17:19.804697'),(222,'order','0007_create_history_tables','2021-07-30 20:17:19.979592'),(223,'order','0008_delete_order_payment_processor','2021-07-30 20:17:20.257479'),(224,'order','0009_auto_20150709_1205','2021-07-30 20:17:20.341473'),(225,'order','0010_auto_20160529_2245','2021-07-30 20:17:20.382631'),(226,'order','0011_auto_20161025_1446','2021-07-30 20:17:20.424514'),(227,'order','0012_auto_20170215_2224','2021-07-30 20:17:20.475669'),(228,'order','0013_auto_20170215_2229','2021-07-30 20:17:20.601708'),(229,'order','0014_auto_20170606_0535','2021-07-30 20:17:20.702432'),(230,'order','0015_create_disable_repeat_order_check_switch','2021-07-30 20:17:20.798559'),(231,'order','0016_auto_20180119_0903','2021-07-30 20:17:22.010797'),(232,'order','0017_order_partner','2021-07-30 20:17:22.106782'),(233,'invoice','0001_initial','2021-07-30 20:17:22.300033'),(234,'invoice','0002_auto_20160324_1919','2021-07-30 20:17:23.098359'),(235,'invoice','0003_auto_20160616_0657','2021-07-30 20:17:23.820930'),(236,'invoice','0004_auto_20170215_2234','2021-07-30 20:17:24.098830'),(237,'invoice','0005_auto_20180119_0903','2021-07-30 20:17:24.685509'),(238,'invoice','0006_auto_20180228_1057','2021-07-30 20:17:24.756230'),(239,'invoice','0007_historicalinvoice','2021-07-30 20:17:24.839456'),(240,'invoice','0008_auto_20191115_2151','2021-07-30 20:17:25.082991'),(241,'invoice','0009_auto_20210526_2005','2021-07-30 20:17:25.109428'),(242,'payment','0001_initial','2021-07-30 20:17:25.412381'),(243,'payment','0002_auto_20141007_2032','2021-07-30 20:17:25.528504'),(244,'payment','0003_create_payment_processor_response','2021-07-30 20:17:25.630705'),(245,'payment','0004_source_card_type','2021-07-30 20:17:25.711792'),(246,'payment','0005_paypalwebprofile','2021-07-30 20:17:25.735112'),(247,'payment','0006_enable_payment_processors','2021-07-30 20:17:25.843397'),(248,'payment','0007_add_cybersource_level23_sample','2021-07-30 20:17:26.230533'),(249,'payment','0008_remove_cybersource_level23_sample','2021-07-30 20:17:26.336336'),(250,'payment','0009_auto_20161025_1446','2021-07-30 20:17:26.359481'),(251,'payment','0010_create_client_side_checkout_flag','2021-07-30 20:17:26.466211'),(252,'payment','0011_paypalprocessorconfiguration','2021-07-30 20:17:26.489302'),(253,'payment','0012_auto_20161109_1456','2021-07-30 20:17:26.501547'),(254,'payment','0013_sdncheckfailure','2021-07-30 20:17:26.527594'),(255,'payment','0014_sdncheckfailure_site','2021-07-30 20:17:26.606318'),(256,'payment','0015_auto_20170215_2229','2021-07-30 20:17:26.665033'),(257,'payment','0016_auto_20170227_1402','2021-07-30 20:17:26.786545'),(258,'payment','0017_auto_20170328_1445','2021-07-30 20:17:26.980971'),(259,'payment','0018_create_stripe_switch','2021-07-30 20:17:27.083259'),(260,'payment','0019_auto_20180628_2011','2021-07-30 20:17:27.148926'),(261,'payment','0020_auto_20191004_1520','2021-07-30 20:17:27.253574'),(262,'payment','0021_auto_20191115_2151','2021-07-30 20:17:27.278197'),(263,'payment','0022_auto_20191120_2106','2021-07-30 20:17:27.324944'),(264,'payment','0023_auto_20191126_2153','2021-07-30 20:17:27.350694'),(265,'voucher','0002_couponvouchers','2021-07-30 20:17:27.442005'),(266,'voucher','0003_orderlinevouchers','2021-07-30 20:17:27.904406'),(267,'voucher','0004_auto_20160517_0930','2021-07-30 20:17:28.106310'),(268,'voucher','0005_auto_20180124_1131','2021-07-30 20:17:28.212541'),(269,'voucher','0006_auto_20181205_1017','2021-07-30 20:17:28.233534'),(270,'offer','0013_auto_20170801_0742','2021-07-30 20:17:28.273520'),(271,'offer','0014_conditionaloffer_site','2021-07-30 20:17:28.360496'),(272,'offer','0015_auto_20170926_1357','2021-07-30 20:17:28.519356'),(273,'offer','0016_auto_20180124_1131','2021-07-30 20:17:28.781047'),(274,'offer','0017_condition_journal_bundle_uuid','2021-07-30 20:17:28.829171'),(275,'offer','0018_conditionaloffer_partner','2021-07-30 20:17:28.916571'),(276,'offer','0019_migrate_partner_to_conditional_offers','2021-07-30 20:17:29.048432'),(277,'offer','0020_migrate_partner_to_coupon_offers','2021-07-30 20:17:29.160712'),(278,'offer','0021_range_enterprise_customer_catalog','2021-07-30 20:17:29.222006'),(279,'offer','0022_offerassignment','2021-07-30 20:17:29.298560'),(280,'offer','0023_offerassignmentemailattempt','2021-07-30 20:17:29.423057'),(281,'offer','0024_add_history_models_de_1424','2021-07-30 20:17:30.237989'),(282,'offer','0025_auto_20190624_1747','2021-07-30 20:17:30.674615'),(283,'offer','0026_auto_20190903_1806','2021-07-30 20:17:30.837264'),(284,'offer','0027_auto_20190913_1756','2021-07-30 20:17:31.014846'),(285,'offer','0028_auto_20191115_2151','2021-07-30 20:17:31.180379'),(286,'offer','0029_auto_20191126_2153','2021-07-30 20:17:31.409542'),(287,'offer','0030_offerassignmentemailtemplates','2021-07-30 20:17:31.498655'),(288,'offer','0031_auto_20200224_0756','2021-07-30 20:17:31.570419'),(289,'offer','0032_auto_20200305_1109','2021-07-30 20:17:31.750048'),(290,'offer','0033_auto_20200311_1240','2021-07-30 20:17:32.200839'),(291,'offer','0034_auto_20200403_1003','2021-07-30 20:17:32.273434'),(292,'offer','0035_offerassignmentemailtemplates_name','2021-07-30 20:17:32.311991'),(293,'offer','0036_auto_20200514_1636','2021-07-30 20:17:32.493492'),(294,'offer','0037_auto_20200528_1140','2021-07-30 20:17:32.507966'),(295,'offer','0038_auto_20200605_1006','2021-07-30 20:17:32.803742'),(296,'offer','0039_auto_20200617_1032','2021-07-30 20:17:33.043687'),(297,'offer','0040_auto_20200619_0803','2021-07-30 20:17:33.369441'),(298,'offer','0041_auto_20200707_1317','2021-07-30 20:17:33.694767'),(299,'offer','0042_offerassignmentemailtemplates_email_subject','2021-07-30 20:17:33.727077'),(300,'offer','0043_offerusageemail','2021-07-30 20:17:33.799804'),(301,'offer','0044_codeassignmentnudgeemailtemplates','2021-07-30 20:17:33.847712'),(302,'offer','0045_codeassignmentnudgeemails','2021-07-30 20:17:33.879809'),(303,'offer','0046_offerassignmentemailsentrecord','2021-07-30 20:17:33.998061'),(304,'offer','0047_codeassignmentnudgeemailtemplates','2021-07-30 20:17:34.152455'),(305,'offer','0048_auto_20201112_1015','2021-07-30 20:17:34.427451'),(306,'offer','0049_codeassignmentnudgeemails_options','2021-07-30 20:17:34.463054'),(307,'order','0018_historicalline_historicalorder','2021-07-30 20:17:34.632865'),(308,'order','0019_manualenrollmentorderdiscountbenefit_manualenrollmentorderdiscountcondition','2021-07-30 20:17:34.808470'),(309,'order','0020_auto_20191115_2151','2021-07-30 20:17:34.854037'),(310,'order','0021_auto_20191212_1630','2021-07-30 20:17:35.502244'),(311,'order','0022_historicalorderdiscount','2021-07-30 20:17:35.582641'),(312,'order','0023_auto_20200305_1448','2021-07-30 20:17:35.830549'),(313,'order','0024_markordersstatuscompleteconfig','2021-07-30 20:17:35.936488'),(314,'partner','0015_historicalpartner','2021-07-30 20:17:36.044379'),(315,'partner','0016_auto_20191115_2151','2021-07-30 20:17:36.165006'),(316,'partner','0017_auto_20200305_1448','2021-07-30 20:17:36.289318'),(317,'partner','0018_remove_partner_enable_sailthru','2021-07-30 20:17:36.410923'),(318,'payment','0024_auto_20191212_1630','2021-07-30 20:17:36.440460'),(319,'payment','0025_card_type_ordering','2021-07-30 20:17:36.469424'),(320,'payment','0026_auto_20200305_1448','2021-07-30 20:17:36.504182'),(321,'payment','0027_auto_20200811_1356','2021-07-30 20:17:36.527332'),(322,'payment','0028_sdnfallbackmetadata','2021-07-30 20:17:36.554331'),(323,'payment','0029_sdnfallbackdata','2021-07-30 20:17:36.584823'),(324,'payment','0030_delete_sdnfallbackdata','2021-07-30 20:17:36.645165'),(325,'payment','0031_sdnfallbackdata','2021-07-30 20:17:36.674049'),(326,'programs','0001_initial','2021-07-30 20:17:36.738703'),(327,'programs','0002_add_basket_attribute_type','2021-07-30 20:17:36.880510'),(328,'referrals','0001_initial','2021-07-30 20:17:36.968278'),(329,'referrals','0002_auto_20161011_1728','2021-07-30 20:17:37.841512'),(330,'referrals','0003_auto_20161027_1738','2021-07-30 20:17:37.973646'),(331,'referrals','0004_auto_20170215_2234','2021-07-30 20:17:38.175506'),(332,'referrals','0005_auto_20180628_2011','2021-07-30 20:17:38.246891'),(333,'referrals','0006_auto_20210526_2005','2021-07-30 20:17:38.284781'),(334,'refund','0001_squashed_0002_auto_20150515_2220','2021-07-30 20:17:38.693040'),(335,'refund','0002_auto_20151214_1017','2021-07-30 20:17:39.019822'),(336,'refund','0003_auto_20180119_0903','2021-07-30 20:17:39.950999'),(337,'refund','0004_auto_20180403_1120','2021-07-30 20:17:40.090839'),(338,'refund','0005_auto_20180628_2011','2021-07-30 20:17:40.206259'),(339,'refund','0006_historicalrefund_historicalrefundline','2021-07-30 20:17:40.372848'),(340,'refund','0007_auto_20191115_2151','2021-07-30 20:17:40.577967'),(341,'refund','0008_auto_20210526_2005','2021-07-30 20:17:40.630027'),(342,'reviews','0001_initial','2021-07-30 20:17:40.865472'),(343,'reviews','0002_update_email_length','2021-07-30 20:17:41.006197'),(344,'reviews','0003_auto_20160802_1358','2021-07-30 20:17:41.059033'),(345,'reviews','0004_auto_20170429_0941','2021-07-30 20:17:41.147634'),(346,'sailthru','0001_initial','2021-07-30 20:17:41.287847'),(347,'sailthru','0002_add_basket_attribute_type','2021-07-30 20:17:41.428108'),(348,'sessions','0001_initial','2021-07-30 20:17:41.453623'),(349,'shipping','0001_initial','2021-07-30 20:17:41.751763'),(350,'shipping','0002_auto_20150604_1450','2021-07-30 20:17:42.571116'),(351,'shipping','0003_auto_20181115_1953','2021-07-30 20:17:42.630201'),(352,'default','0001_initial','2021-07-30 20:17:42.857936'),(353,'social_auth','0001_initial','2021-07-30 20:17:42.863149'),(354,'default','0002_add_related_name','2021-07-30 20:17:42.994656'),(355,'social_auth','0002_add_related_name','2021-07-30 20:17:43.000068'),(356,'default','0003_alter_email_max_length','2021-07-30 20:17:43.043294'),(357,'social_auth','0003_alter_email_max_length','2021-07-30 20:17:43.049193'),(358,'default','0004_auto_20160423_0400','2021-07-30 20:17:43.083962'),(359,'social_auth','0004_auto_20160423_0400','2021-07-30 20:17:43.089612'),(360,'social_auth','0005_auto_20160727_2333','2021-07-30 20:17:43.117129'),(361,'social_django','0006_partial','2021-07-30 20:17:43.141832'),(362,'social_django','0007_code_timestamp','2021-07-30 20:17:43.185874'),(363,'social_django','0008_partial_timestamp','2021-07-30 20:17:43.229341'),(364,'social_django','0009_auto_20191118_0520','2021-07-30 20:17:43.354017'),(365,'social_django','0010_uid_db_index','2021-07-30 20:17:43.401853'),(366,'theming','0001_initial','2021-07-30 20:17:43.481669'),(367,'thumbnail','0001_initial','2021-07-30 20:17:43.525617'),(368,'voucher','0007_auto_20190913_1756','2021-07-30 20:17:43.699168'),(369,'voucher','0008_auto_20191115_2151','2021-07-30 20:17:43.769082'),(370,'voucher','0009_historicalvoucherapplication','2021-07-30 20:17:43.854623'),(371,'voucher','0010_auto_20200305_1448','2021-07-30 20:17:43.975907'),(372,'voucher','0011_auto_20200403_2046','2021-07-30 20:17:44.193263'),(373,'voucher','0012_voucher_is_public','2021-07-30 20:17:44.244402'),(374,'waffle','0002_auto_20161201_0958','2021-07-30 20:17:44.260548'),(375,'waffle','0003_update_strings_for_i18n','2021-07-30 20:17:45.516665'),(376,'waffle','0004_update_everyone_nullbooleanfield','2021-07-30 20:17:45.558149'),(377,'wishlists','0001_initial','2021-07-30 20:17:45.861169'),(378,'wishlists','0002_auto_20160111_1108','2021-07-30 20:17:45.973158'),(379,'wishlists','0003_auto_20181115_1953','2021-07-30 20:17:46.010322'),(380,'social_django','0002_add_related_name','2021-07-30 20:17:46.020080'),(381,'social_django','0004_auto_20160423_0400','2021-07-30 20:17:46.025044'),(382,'social_django','0005_auto_20160727_2333','2021-07-30 20:17:46.029806'),(383,'social_django','0003_alter_email_max_length','2021-07-30 20:17:46.034607'),(384,'social_django','0001_initial','2021-07-30 20:17:46.039091'),(385,'auth','0012_alter_user_first_name_max_length','2023-02-10 18:42:15.564308'),(386,'basket','0014_line_date_updated','2023-02-10 18:42:16.051700'),(387,'basket','0015_add_paymentintentid','2023-02-10 18:42:16.288390'),(388,'catalogue','0053_auto_20210922_1857','2023-02-10 18:42:17.723335'),(389,'catalogue','0054_add_variant_id_product_attr','2023-02-10 18:42:17.911469'),(390,'communication','0001_initial','2023-02-10 18:42:18.390924'),(391,'core','0066_remove_account_microfrontend_url_field_from_SiteConfiguration','2023-02-10 18:42:18.495968'),(392,'order','0025_auto_20210922_1857','2023-02-10 18:42:19.152840'),(393,'customer','0007_auto_20211213_1702','2023-02-10 18:42:19.587790'),(394,'offer','0050_templatefileattachment','2023-02-10 18:42:19.642152'),(395,'offer','0051_offerusageemail_email_type','2023-02-10 18:42:19.691346'),(396,'offer','0052_jsonfield_codeassignmentnudgeemails_offerusageemail','2023-02-10 18:42:19.732633'),(397,'payment','0032_alter_source_card_type','2023-02-10 18:42:19.783477'),(398,'iap','0001_initial','2023-02-21 14:38:06.821459'),(399,'iap','0002_paymentprocessorresponseextension','2023-02-21 14:38:07.479341');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2021-07-30 20:16:49.194661'),(2,'auth','0001_initial','2021-07-30 20:16:49.260236'),(3,'core','0001_initial','2021-07-30 20:16:49.433072'),(4,'address','0001_initial','2021-07-30 20:16:49.656461'),(5,'address','0002_auto_20150927_1547','2021-07-30 20:16:49.797240'),(6,'address','0003_auto_20150927_1551','2021-07-30 20:16:49.825385'),(7,'address','0004_auto_20170226_1122','2021-07-30 20:16:49.846392'),(8,'address','0005_regenerate_user_address_hashes','2021-07-30 20:16:49.862673'),(9,'address','0006_auto_20181115_1953','2021-07-30 20:16:49.882139'),(10,'admin','0001_initial','2021-07-30 20:16:49.997619'),(11,'admin','0002_logentry_remove_auto_add','2021-07-30 20:16:50.057639'),(12,'admin','0003_logentry_add_action_flag_choices','2021-07-30 20:16:50.070231'),(13,'catalogue','0001_initial','2021-07-30 20:16:50.665573'),(14,'analytics','0001_initial','2021-07-30 20:16:51.314013'),(15,'analytics','0002_auto_20140827_1705','2021-07-30 20:16:51.541130'),(16,'contenttypes','0002_remove_content_type_name','2021-07-30 20:16:51.703335'),(17,'auth','0002_alter_permission_name_max_length','2021-07-30 20:16:51.738682'),(18,'auth','0003_alter_user_email_max_length','2021-07-30 20:16:51.750804'),(19,'auth','0004_alter_user_username_opts','2021-07-30 20:16:51.764965'),(20,'auth','0005_alter_user_last_login_null','2021-07-30 20:16:51.778120'),(21,'auth','0006_require_contenttypes_0002','2021-07-30 20:16:51.784387'),(22,'auth','0007_alter_validators_add_error_messages','2021-07-30 20:16:51.797880'),(23,'auth','0008_alter_user_username_max_length','2021-07-30 20:16:51.810602'),(24,'auth','0009_alter_user_last_name_max_length','2021-07-30 20:16:51.822770'),(25,'auth','0010_alter_group_name_max_length','2021-07-30 20:16:51.859872'),(26,'auth','0011_update_proxy_permissions','2021-07-30 20:16:51.889191'),(27,'waffle','0001_initial','2021-07-30 20:16:51.982858'),(28,'sites','0001_initial','2021-07-30 20:16:52.144381'),(29,'partner','0001_initial','2021-07-30 20:16:52.503890'),(30,'customer','0001_initial','2021-07-30 20:16:52.863083'),(31,'basket','0001_initial','2021-07-30 20:16:53.059798'),(32,'basket','0002_auto_20140827_1705','2021-07-30 20:16:53.388943'),(33,'order','0001_initial','2021-07-30 20:16:55.639963'),(34,'offer','0001_initial','2021-07-30 20:16:56.919863'),(35,'voucher','0001_initial','2021-07-30 20:16:57.466038'),(36,'basket','0003_basket_vouchers','2021-07-30 20:16:57.819643'),(37,'basket','0004_auto_20141007_2032','2021-07-30 20:16:57.914784'),(38,'basket','0005_auto_20150709_1205','2021-07-30 20:16:58.037508'),(39,'basket','0006_basket_site','2021-07-30 20:16:58.116112'),(40,'basket','0007_auto_20160907_2040','2021-07-30 20:16:58.304516'),(41,'basket','0008_auto_20170215_2224','2021-07-30 20:16:58.382415'),(42,'basket','0009_auto_20170215_2229','2021-07-30 20:16:58.417737'),(43,'basket','0010_create_repeat_purchase_switch','2021-07-30 20:16:58.485719'),(44,'basket','0011_add_email_basket_attribute_type','2021-07-30 20:16:58.557257'),(45,'basket','0012_add_purchaser_basket_attribute','2021-07-30 20:16:58.630883'),(46,'basket','0013_auto_20200305_1448','2021-07-30 20:16:58.816174'),(47,'sites','0002_alter_domain_unique','2021-07-30 20:16:58.838016'),(48,'partner','0002_auto_20141007_2032','2021-07-30 20:16:58.869836'),(49,'partner','0003_auto_20150223_1130','2021-07-30 20:16:58.874183'),(50,'courses','0001_initial','2021-07-30 20:16:58.894953'),(51,'catalogue','0002_auto_20150223_1052','2021-07-30 20:16:58.971694'),(52,'catalogue','0003_product_course','2021-07-30 20:16:59.056059'),(53,'catalogue','0004_auto_20150609_0129','2021-07-30 20:16:59.403109'),(54,'partner','0004_auto_20150609_1215','2021-07-30 20:16:59.785451'),(55,'partner','0005_auto_20150610_1355','2021-07-30 20:17:00.196282'),(56,'partner','0006_auto_20150709_1205','2021-07-30 20:17:00.316042'),(57,'partner','0007_auto_20150914_0841','2021-07-30 20:17:00.470922'),(58,'partner','0008_auto_20150914_1057','2021-07-30 20:17:00.527657'),(59,'partner','0009_partner_enable_sailthru','2021-07-30 20:17:00.587956'),(60,'partner','0010_auto_20161025_1446','2021-07-30 20:17:00.624439'),(61,'partner','0011_auto_20170525_2138','2021-07-30 20:17:00.660408'),(62,'partner','0012_auto_20180119_0903','2021-07-30 20:17:00.922927'),(63,'partner','0013_partner_default_site','2021-07-30 20:17:01.226821'),(64,'courses','0002_historicalcourse','2021-07-30 20:17:01.325893'),(65,'courses','0003_auto_20150618_1108','2021-07-30 20:17:01.435088'),(66,'courses','0004_auto_20150803_1406','2021-07-30 20:17:01.512385'),(67,'courses','0005_auto_20170525_0131','2021-07-30 20:17:01.801507'),(68,'courses','0006_auto_20171204_1036','2021-07-30 20:17:02.020721'),(69,'courses','0007_auto_20180119_0903','2021-07-30 20:17:02.349246'),(70,'courses','0008_course_partner','2021-07-30 20:17:02.421005'),(71,'courses','0009_allow_site_to_be_nullable','2021-07-30 20:17:02.554504'),(72,'courses','0010_migrate_partner_data_to_courses','2021-07-30 20:17:02.729304'),(73,'catalogue','0005_auto_20150610_1355','2021-07-30 20:17:03.078444'),(74,'catalogue','0006_credit_provider_attr','2021-07-30 20:17:03.158892'),(75,'catalogue','0007_auto_20150709_1205','2021-07-30 20:17:03.562848'),(76,'catalogue','0008_auto_20150709_1254','2021-07-30 20:17:03.685735'),(77,'catalogue','0009_credit_hours_attr','2021-07-30 20:17:03.764861'),(78,'catalogue','0010_catalog','2021-07-30 20:17:03.851121'),(79,'catalogue','0011_auto_20151019_0639','2021-07-30 20:17:04.052535'),(80,'catalogue','0012_enrollment_code_product_class','2021-07-30 20:17:04.056220'),(81,'catalogue','0013_coupon_product_class','2021-07-30 20:17:04.216020'),(82,'catalogue','0014_alter_couponvouchers_attribute','2021-07-30 20:17:04.297883'),(83,'catalogue','0015_default_categories','2021-07-30 20:17:04.466240'),(84,'catalogue','0016_coupon_note_attribute','2021-07-30 20:17:04.717186'),(85,'catalogue','0017_enrollment_code_product_class','2021-07-30 20:17:04.800080'),(86,'catalogue','0018_auto_20160530_0134','2021-07-30 20:17:04.831745'),(87,'catalogue','0019_enrollment_code_idverifyreq_attribute','2021-07-30 20:17:04.910819'),(88,'catalogue','0020_auto_20161025_1446','2021-07-30 20:17:04.943953'),(89,'catalogue','0021_auto_20170215_2224','2021-07-30 20:17:04.993195'),(90,'catalogue','0022_auto_20170215_2229','2021-07-30 20:17:05.010770'),(91,'catalogue','0023_auto_20170215_2234','2021-07-30 20:17:05.069002'),(92,'catalogue','0024_fix_enrollment_code_slug','2021-07-30 20:17:05.148215'),(93,'catalogue','0025_course_entitlement','2021-07-30 20:17:05.229733'),(94,'catalogue','0026_course_entitlement_attr_change','2021-07-30 20:17:05.314857'),(95,'catalogue','0027_catalogue_entitlement_option','2021-07-30 20:17:05.395164'),(96,'catalogue','0028_donations_from_checkout_tests_product_type','2021-07-30 20:17:05.648516'),(97,'catalogue','0029_auto_20180119_0903','2021-07-30 20:17:06.364082'),(98,'catalogue','0030_auto_20180124_1131','2021-07-30 20:17:06.786216'),(99,'catalogue','0031_course_entitlement_idverifyreq_attr','2021-07-30 20:17:06.931878'),(100,'catalogue','0032_journal_product_class','2021-07-30 20:17:07.012020'),(101,'catalogue','0033_add_coupon_categories','2021-07-30 20:17:07.105599'),(102,'catalogue','0034_add_on_campus_coupon_category','2021-07-30 20:17:07.183995'),(103,'catalogue','0035_add_partner_no_rev_coupon_categories','2021-07-30 20:17:07.270941'),(104,'catalogue','0036_coupon_notify_email_attribute','2021-07-30 20:17:07.356001'),(105,'catalogue','0037_add_sec_disc_reward_coupon_category','2021-07-30 20:17:07.434505'),(106,'catalogue','0038_coupon_enterprise_id_attribute','2021-07-30 20:17:07.646486'),(107,'catalogue','0039_historicalproduct_historicalproductattributevalue','2021-07-30 20:17:07.806947'),(108,'catalogue','0040_historicalcategory_historicaloption_historicalproductattribute_historicalproductcategory_historicalp','2021-07-30 20:17:08.335574'),(109,'catalogue','0041_auto_20190903_1752','2021-07-30 20:17:08.627472'),(110,'catalogue','0042_auto_20190913_1756','2021-07-30 20:17:08.725655'),(111,'catalogue','0043_auto_20191115_2151','2021-07-30 20:17:09.105814'),(112,'catalogue','0044_add_enterprisecontractmetadata_product_attribute','2021-07-30 20:17:09.189513'),(113,'catalogue','0045_add_edx_employee_coupon_category','2021-07-30 20:17:09.278502'),(114,'catalogue','0046_coupon_inactive_attribute','2021-07-30 20:17:09.362880'),(115,'catalogue','0047_coupon_sales_force_id_attribute','2021-07-30 20:17:09.446311'),(116,'catalogue','0048_auto_20200311_1240','2021-07-30 20:17:10.371833'),(117,'catalogue','0049_add_rap_and_orap_coupon_categories','2021-07-30 20:17:10.469517'),(118,'catalogue','0050_add_b2b_affiliate_promotion_coupon_category','2021-07-30 20:17:10.554442'),(119,'catalogue','0051_coupon_public_batch_attribute','2021-07-30 20:17:10.638875'),(120,'catalogue','0052_add_scholarship_coupon_category','2021-07-30 20:17:10.726740'),(121,'core','0002_auto_20150826_1455','2021-07-30 20:17:11.230512'),(122,'core','0003_auto_20150914_1120','2021-07-30 20:17:11.343490'),(123,'core','0004_auto_20150915_1023','2021-07-30 20:17:11.506439'),(124,'core','0005_auto_20150924_0123','2021-07-30 20:17:11.599476'),(125,'core','0006_add_service_user','2021-07-30 20:17:11.693067'),(126,'core','0007_auto_20151005_1333','2021-07-30 20:17:11.782329'),(127,'core','0008_client','2021-07-30 20:17:11.858742'),(128,'core','0009_service_user_privileges','2021-07-30 20:17:12.216879'),(129,'core','0010_add_async_sample','2021-07-30 20:17:12.313580'),(130,'core','0011_siteconfiguration_oauth_settings','2021-07-30 20:17:12.359520'),(131,'core','0012_businessclient','2021-07-30 20:17:12.382414'),(132,'core','0013_siteconfiguration_segment_key','2021-07-30 20:17:12.621371'),(133,'core','0014_enrollment_code_switch','2021-07-30 20:17:12.714586'),(134,'core','0015_siteconfiguration_from_email','2021-07-30 20:17:12.760442'),(135,'core','0016_siteconfiguration_enable_enrollment_codes','2021-07-30 20:17:12.808945'),(136,'core','0017_siteconfiguration_payment_support_email','2021-07-30 20:17:12.854367'),(137,'core','0018_siteconfiguration_payment_support_url','2021-07-30 20:17:12.910659'),(138,'core','0019_auto_20161012_1404','2021-07-30 20:17:12.999343'),(139,'core','0020_siteconfiguration_enable_otto_receipt_page','2021-07-30 20:17:13.047548'),(140,'core','0021_siteconfiguration_client_side_payment_processor','2021-07-30 20:17:13.102269'),(141,'core','0022_auto_20161108_2101','2021-07-30 20:17:13.123907'),(142,'core','0023_siteconfiguration_send_refund_notifications','2021-07-30 20:17:13.171770'),(143,'core','0024_auto_20170208_1520','2021-07-30 20:17:13.358240'),(144,'core','0025_auto_20170214_0003','2021-07-30 20:17:13.379364'),(145,'core','0026_auto_20170215_2234','2021-07-30 20:17:13.402599'),(146,'core','0027_siteconfiguration_require_account_activation','2021-07-30 20:17:13.451260'),(147,'core','0028_siteconfiguration_optimizely_snippet_src','2021-07-30 20:17:13.502116'),(148,'core','0029_auto_20170525_2131','2021-07-30 20:17:13.544106'),(149,'core','0030_auto_20170525_2134','2021-07-30 20:17:13.686691'),(150,'core','0031_siteconfiguration_enable_sailthru','2021-07-30 20:17:13.813149'),(151,'core','0032_auto_20170602_0516','2021-07-30 20:17:13.865486'),(152,'core','0033_auto_20170606_0539','2021-07-30 20:17:13.958301'),(153,'core','0034_auto_20170613_2039','2021-07-30 20:17:13.977238'),(154,'core','0035_siteconfiguration_base_cookie_domain','2021-07-30 20:17:14.024043'),(155,'core','0036_remove_siteconfiguration_enable_otto_receipt_page','2021-07-30 20:17:14.072387'),(156,'core','0037_siteconfiguration_enable_embargo_check','2021-07-30 20:17:14.115852'),(157,'core','0038_siteconfiguration_discovery_api_url','2021-07-30 20:17:14.161930'),(158,'core','0039_auto_20170716_2212','2021-07-30 20:17:14.218974'),(159,'core','0040_siteconfiguration__allowed_segment_events','2021-07-30 20:17:14.260483'),(160,'core','0041_remove_siteconfiguration__allowed_segment_events','2021-07-30 20:17:14.302926'),(161,'core','0042_siteconfiguration_enable_partial_program','2021-07-30 20:17:14.346638'),(162,'core','0043_auto_20170808_1009','2021-07-30 20:17:14.366544'),(163,'core','0044_auto_20180313_0702','2021-07-30 20:17:14.455915'),(164,'core','0045_auto_20180510_0823','2021-07-30 20:17:14.788323'),(165,'core','0046_siteconfiguration_journals_api_url','2021-07-30 20:17:14.825376'),(166,'core','0047_businessclient_enterprise_customer_uuid','2021-07-30 20:17:14.851039'),(167,'core','0048_siteconfiguration_hubspot_secret_key','2021-07-30 20:17:14.890022'),(168,'core','0049_ecommercefeaturerole_ecommercefeatureroleassignment','2021-07-30 20:17:14.978917'),(169,'core','0050_add_specific_ecommerce_roles','2021-07-30 20:17:15.131588'),(170,'core','0051_ecommercefeatureroleassignment_enterprise_id','2021-07-30 20:17:15.194762'),(171,'core','0052_historicalbusinessclient','2021-07-30 20:17:15.269304'),(172,'core','0053_user_lms_user_id','2021-07-30 20:17:15.408410'),(173,'core','0054_auto_20190626_0153','2021-07-30 20:17:15.492475'),(174,'core','0055_add_ordermanager_role','2021-07-30 20:17:15.588357'),(175,'core','0056_remove_siteconfiguration_journals_api_url','2021-07-30 20:17:15.629972'),(176,'core','0057_auto_20190920_1752','2021-07-30 20:17:15.669390'),(177,'core','0058_auto_20191115_2151','2021-07-30 20:17:15.812635'),(178,'core','0059_auto_20200115_1941','2021-07-30 20:17:15.933367'),(179,'core','0060_auto_20200117_1312','2021-07-30 20:17:16.023025'),(180,'core','0061_auto_20200407_1725','2021-07-30 20:17:16.097708'),(181,'core','0062_siteconfiguration_account_microfrontend_url','2021-07-30 20:17:16.140351'),(182,'core','0063_braze_switch','2021-07-30 20:17:16.238805'),(183,'core','0064_remove_siteconfiguration_enable_sailthru','2021-07-30 20:17:16.281954'),(184,'core','0065_ecommercefeatureroleassignment_applies_to_all_contexts','2021-07-30 20:17:16.332198'),(185,'partner','0014_historicalstockrecord','2021-07-30 20:17:16.641422'),(186,'courses','0011_historicalcourse','2021-07-30 20:17:16.789322'),(187,'courses','0012_auto_20191115_2151','2021-07-30 20:17:16.869522'),(188,'customer','0002_auto_20160517_0930','2021-07-30 20:17:16.882571'),(189,'customer','0003_auto_20170215_2229','2021-07-30 20:17:16.942368'),(190,'customer','0004_auto_20180124_1131','2021-07-30 20:17:17.109865'),(191,'customer','0005_auto_20191115_2151','2021-07-30 20:17:17.122314'),(192,'customer','0006_auto_20200305_1448','2021-07-30 20:17:17.163547'),(193,'offer','0002_range_catalog','2021-07-30 20:17:17.253092'),(194,'offer','0003_auto_20160517_1247','2021-07-30 20:17:17.390944'),(195,'offer','0004_auto_20160530_0944','2021-07-30 20:17:17.455365'),(196,'offer','0005_conditionaloffer_email_domains','2021-07-30 20:17:17.498385'),(197,'offer','0006_auto_20161025_1446','2021-07-30 20:17:17.535190'),(198,'offer','0007_auto_20161026_0856','2021-07-30 20:17:17.600557'),(199,'offer','0008_range_course_catalog','2021-07-30 20:17:17.661890'),(200,'offer','0009_range_enterprise_customer','2021-07-30 20:17:17.721439'),(201,'offer','0010_auto_20170215_2224','2021-07-30 20:17:17.750983'),(202,'offer','0011_auto_20170215_2324','2021-07-30 20:17:17.785650'),(203,'offer','0012_condition_program_uuid','2021-07-30 20:17:17.826181'),(204,'enterprise','0001_initial','2021-07-30 20:17:17.844590'),(205,'enterprise','0002_add_enterprise_offers_switch','2021-07-30 20:17:17.944882'),(206,'enterprise','0003_add_enable_enterprise_switch','2021-07-30 20:17:18.041652'),(207,'enterprise','0004_add_enterprise_offers_for_coupons','2021-07-30 20:17:18.367904'),(208,'enterprise','0005_assignableenterprisecustomercondition','2021-07-30 20:17:18.379443'),(209,'enterprise','0006_add_role_based_authz_switch','2021-07-30 20:17:18.475535'),(210,'enterprise','0007_remove_role_based_authz_switch','2021-07-30 20:17:18.570659'),(211,'enterprise','0008_remove_enterprise_offers_switch','2021-07-30 20:17:18.663538'),(212,'enterprise','0009_remove_enterprise_offers_for_coupons','2021-07-30 20:17:18.754708'),(213,'enterprise','0010_add_use_enterprise_catalog_flag','2021-07-30 20:17:18.852675'),(214,'enterprise','0011_remove_use_enterprise_catalog_flag','2021-07-30 20:17:18.951563'),(215,'flatpages','0001_initial','2021-07-30 20:17:19.044870'),(216,'fulfillment','0001_initial','2021-07-30 20:17:19.226797'),(217,'order','0002_auto_20141007_2032','2021-07-30 20:17:19.272491'),(218,'order','0003_auto_20150224_1520','2021-07-30 20:17:19.611465'),(219,'order','0004_order_payment_processor','2021-07-30 20:17:19.684366'),(220,'order','0005_deprecate_order_payment_processor','2021-07-30 20:17:19.753185'),(221,'order','0006_paymentevent_processor_name','2021-07-30 20:17:19.804697'),(222,'order','0007_create_history_tables','2021-07-30 20:17:19.979592'),(223,'order','0008_delete_order_payment_processor','2021-07-30 20:17:20.257479'),(224,'order','0009_auto_20150709_1205','2021-07-30 20:17:20.341473'),(225,'order','0010_auto_20160529_2245','2021-07-30 20:17:20.382631'),(226,'order','0011_auto_20161025_1446','2021-07-30 20:17:20.424514'),(227,'order','0012_auto_20170215_2224','2021-07-30 20:17:20.475669'),(228,'order','0013_auto_20170215_2229','2021-07-30 20:17:20.601708'),(229,'order','0014_auto_20170606_0535','2021-07-30 20:17:20.702432'),(230,'order','0015_create_disable_repeat_order_check_switch','2021-07-30 20:17:20.798559'),(231,'order','0016_auto_20180119_0903','2021-07-30 20:17:22.010797'),(232,'order','0017_order_partner','2021-07-30 20:17:22.106782'),(233,'invoice','0001_initial','2021-07-30 20:17:22.300033'),(234,'invoice','0002_auto_20160324_1919','2021-07-30 20:17:23.098359'),(235,'invoice','0003_auto_20160616_0657','2021-07-30 20:17:23.820930'),(236,'invoice','0004_auto_20170215_2234','2021-07-30 20:17:24.098830'),(237,'invoice','0005_auto_20180119_0903','2021-07-30 20:17:24.685509'),(238,'invoice','0006_auto_20180228_1057','2021-07-30 20:17:24.756230'),(239,'invoice','0007_historicalinvoice','2021-07-30 20:17:24.839456'),(240,'invoice','0008_auto_20191115_2151','2021-07-30 20:17:25.082991'),(241,'invoice','0009_auto_20210526_2005','2021-07-30 20:17:25.109428'),(242,'payment','0001_initial','2021-07-30 20:17:25.412381'),(243,'payment','0002_auto_20141007_2032','2021-07-30 20:17:25.528504'),(244,'payment','0003_create_payment_processor_response','2021-07-30 20:17:25.630705'),(245,'payment','0004_source_card_type','2021-07-30 20:17:25.711792'),(246,'payment','0005_paypalwebprofile','2021-07-30 20:17:25.735112'),(247,'payment','0006_enable_payment_processors','2021-07-30 20:17:25.843397'),(248,'payment','0007_add_cybersource_level23_sample','2021-07-30 20:17:26.230533'),(249,'payment','0008_remove_cybersource_level23_sample','2021-07-30 20:17:26.336336'),(250,'payment','0009_auto_20161025_1446','2021-07-30 20:17:26.359481'),(251,'payment','0010_create_client_side_checkout_flag','2021-07-30 20:17:26.466211'),(252,'payment','0011_paypalprocessorconfiguration','2021-07-30 20:17:26.489302'),(253,'payment','0012_auto_20161109_1456','2021-07-30 20:17:26.501547'),(254,'payment','0013_sdncheckfailure','2021-07-30 20:17:26.527594'),(255,'payment','0014_sdncheckfailure_site','2021-07-30 20:17:26.606318'),(256,'payment','0015_auto_20170215_2229','2021-07-30 20:17:26.665033'),(257,'payment','0016_auto_20170227_1402','2021-07-30 20:17:26.786545'),(258,'payment','0017_auto_20170328_1445','2021-07-30 20:17:26.980971'),(259,'payment','0018_create_stripe_switch','2021-07-30 20:17:27.083259'),(260,'payment','0019_auto_20180628_2011','2021-07-30 20:17:27.148926'),(261,'payment','0020_auto_20191004_1520','2021-07-30 20:17:27.253574'),(262,'payment','0021_auto_20191115_2151','2021-07-30 20:17:27.278197'),(263,'payment','0022_auto_20191120_2106','2021-07-30 20:17:27.324944'),(264,'payment','0023_auto_20191126_2153','2021-07-30 20:17:27.350694'),(265,'voucher','0002_couponvouchers','2021-07-30 20:17:27.442005'),(266,'voucher','0003_orderlinevouchers','2021-07-30 20:17:27.904406'),(267,'voucher','0004_auto_20160517_0930','2021-07-30 20:17:28.106310'),(268,'voucher','0005_auto_20180124_1131','2021-07-30 20:17:28.212541'),(269,'voucher','0006_auto_20181205_1017','2021-07-30 20:17:28.233534'),(270,'offer','0013_auto_20170801_0742','2021-07-30 20:17:28.273520'),(271,'offer','0014_conditionaloffer_site','2021-07-30 20:17:28.360496'),(272,'offer','0015_auto_20170926_1357','2021-07-30 20:17:28.519356'),(273,'offer','0016_auto_20180124_1131','2021-07-30 20:17:28.781047'),(274,'offer','0017_condition_journal_bundle_uuid','2021-07-30 20:17:28.829171'),(275,'offer','0018_conditionaloffer_partner','2021-07-30 20:17:28.916571'),(276,'offer','0019_migrate_partner_to_conditional_offers','2021-07-30 20:17:29.048432'),(277,'offer','0020_migrate_partner_to_coupon_offers','2021-07-30 20:17:29.160712'),(278,'offer','0021_range_enterprise_customer_catalog','2021-07-30 20:17:29.222006'),(279,'offer','0022_offerassignment','2021-07-30 20:17:29.298560'),(280,'offer','0023_offerassignmentemailattempt','2021-07-30 20:17:29.423057'),(281,'offer','0024_add_history_models_de_1424','2021-07-30 20:17:30.237989'),(282,'offer','0025_auto_20190624_1747','2021-07-30 20:17:30.674615'),(283,'offer','0026_auto_20190903_1806','2021-07-30 20:17:30.837264'),(284,'offer','0027_auto_20190913_1756','2021-07-30 20:17:31.014846'),(285,'offer','0028_auto_20191115_2151','2021-07-30 20:17:31.180379'),(286,'offer','0029_auto_20191126_2153','2021-07-30 20:17:31.409542'),(287,'offer','0030_offerassignmentemailtemplates','2021-07-30 20:17:31.498655'),(288,'offer','0031_auto_20200224_0756','2021-07-30 20:17:31.570419'),(289,'offer','0032_auto_20200305_1109','2021-07-30 20:17:31.750048'),(290,'offer','0033_auto_20200311_1240','2021-07-30 20:17:32.200839'),(291,'offer','0034_auto_20200403_1003','2021-07-30 20:17:32.273434'),(292,'offer','0035_offerassignmentemailtemplates_name','2021-07-30 20:17:32.311991'),(293,'offer','0036_auto_20200514_1636','2021-07-30 20:17:32.493492'),(294,'offer','0037_auto_20200528_1140','2021-07-30 20:17:32.507966'),(295,'offer','0038_auto_20200605_1006','2021-07-30 20:17:32.803742'),(296,'offer','0039_auto_20200617_1032','2021-07-30 20:17:33.043687'),(297,'offer','0040_auto_20200619_0803','2021-07-30 20:17:33.369441'),(298,'offer','0041_auto_20200707_1317','2021-07-30 20:17:33.694767'),(299,'offer','0042_offerassignmentemailtemplates_email_subject','2021-07-30 20:17:33.727077'),(300,'offer','0043_offerusageemail','2021-07-30 20:17:33.799804'),(301,'offer','0044_codeassignmentnudgeemailtemplates','2021-07-30 20:17:33.847712'),(302,'offer','0045_codeassignmentnudgeemails','2021-07-30 20:17:33.879809'),(303,'offer','0046_offerassignmentemailsentrecord','2021-07-30 20:17:33.998061'),(304,'offer','0047_codeassignmentnudgeemailtemplates','2021-07-30 20:17:34.152455'),(305,'offer','0048_auto_20201112_1015','2021-07-30 20:17:34.427451'),(306,'offer','0049_codeassignmentnudgeemails_options','2021-07-30 20:17:34.463054'),(307,'order','0018_historicalline_historicalorder','2021-07-30 20:17:34.632865'),(308,'order','0019_manualenrollmentorderdiscountbenefit_manualenrollmentorderdiscountcondition','2021-07-30 20:17:34.808470'),(309,'order','0020_auto_20191115_2151','2021-07-30 20:17:34.854037'),(310,'order','0021_auto_20191212_1630','2021-07-30 20:17:35.502244'),(311,'order','0022_historicalorderdiscount','2021-07-30 20:17:35.582641'),(312,'order','0023_auto_20200305_1448','2021-07-30 20:17:35.830549'),(313,'order','0024_markordersstatuscompleteconfig','2021-07-30 20:17:35.936488'),(314,'partner','0015_historicalpartner','2021-07-30 20:17:36.044379'),(315,'partner','0016_auto_20191115_2151','2021-07-30 20:17:36.165006'),(316,'partner','0017_auto_20200305_1448','2021-07-30 20:17:36.289318'),(317,'partner','0018_remove_partner_enable_sailthru','2021-07-30 20:17:36.410923'),(318,'payment','0024_auto_20191212_1630','2021-07-30 20:17:36.440460'),(319,'payment','0025_card_type_ordering','2021-07-30 20:17:36.469424'),(320,'payment','0026_auto_20200305_1448','2021-07-30 20:17:36.504182'),(321,'payment','0027_auto_20200811_1356','2021-07-30 20:17:36.527332'),(322,'payment','0028_sdnfallbackmetadata','2021-07-30 20:17:36.554331'),(323,'payment','0029_sdnfallbackdata','2021-07-30 20:17:36.584823'),(324,'payment','0030_delete_sdnfallbackdata','2021-07-30 20:17:36.645165'),(325,'payment','0031_sdnfallbackdata','2021-07-30 20:17:36.674049'),(326,'programs','0001_initial','2021-07-30 20:17:36.738703'),(327,'programs','0002_add_basket_attribute_type','2021-07-30 20:17:36.880510'),(328,'referrals','0001_initial','2021-07-30 20:17:36.968278'),(329,'referrals','0002_auto_20161011_1728','2021-07-30 20:17:37.841512'),(330,'referrals','0003_auto_20161027_1738','2021-07-30 20:17:37.973646'),(331,'referrals','0004_auto_20170215_2234','2021-07-30 20:17:38.175506'),(332,'referrals','0005_auto_20180628_2011','2021-07-30 20:17:38.246891'),(333,'referrals','0006_auto_20210526_2005','2021-07-30 20:17:38.284781'),(334,'refund','0001_squashed_0002_auto_20150515_2220','2021-07-30 20:17:38.693040'),(335,'refund','0002_auto_20151214_1017','2021-07-30 20:17:39.019822'),(336,'refund','0003_auto_20180119_0903','2021-07-30 20:17:39.950999'),(337,'refund','0004_auto_20180403_1120','2021-07-30 20:17:40.090839'),(338,'refund','0005_auto_20180628_2011','2021-07-30 20:17:40.206259'),(339,'refund','0006_historicalrefund_historicalrefundline','2021-07-30 20:17:40.372848'),(340,'refund','0007_auto_20191115_2151','2021-07-30 20:17:40.577967'),(341,'refund','0008_auto_20210526_2005','2021-07-30 20:17:40.630027'),(342,'reviews','0001_initial','2021-07-30 20:17:40.865472'),(343,'reviews','0002_update_email_length','2021-07-30 20:17:41.006197'),(344,'reviews','0003_auto_20160802_1358','2021-07-30 20:17:41.059033'),(345,'reviews','0004_auto_20170429_0941','2021-07-30 20:17:41.147634'),(346,'sailthru','0001_initial','2021-07-30 20:17:41.287847'),(347,'sailthru','0002_add_basket_attribute_type','2021-07-30 20:17:41.428108'),(348,'sessions','0001_initial','2021-07-30 20:17:41.453623'),(349,'shipping','0001_initial','2021-07-30 20:17:41.751763'),(350,'shipping','0002_auto_20150604_1450','2021-07-30 20:17:42.571116'),(351,'shipping','0003_auto_20181115_1953','2021-07-30 20:17:42.630201'),(352,'default','0001_initial','2021-07-30 20:17:42.857936'),(353,'social_auth','0001_initial','2021-07-30 20:17:42.863149'),(354,'default','0002_add_related_name','2021-07-30 20:17:42.994656'),(355,'social_auth','0002_add_related_name','2021-07-30 20:17:43.000068'),(356,'default','0003_alter_email_max_length','2021-07-30 20:17:43.043294'),(357,'social_auth','0003_alter_email_max_length','2021-07-30 20:17:43.049193'),(358,'default','0004_auto_20160423_0400','2021-07-30 20:17:43.083962'),(359,'social_auth','0004_auto_20160423_0400','2021-07-30 20:17:43.089612'),(360,'social_auth','0005_auto_20160727_2333','2021-07-30 20:17:43.117129'),(361,'social_django','0006_partial','2021-07-30 20:17:43.141832'),(362,'social_django','0007_code_timestamp','2021-07-30 20:17:43.185874'),(363,'social_django','0008_partial_timestamp','2021-07-30 20:17:43.229341'),(364,'social_django','0009_auto_20191118_0520','2021-07-30 20:17:43.354017'),(365,'social_django','0010_uid_db_index','2021-07-30 20:17:43.401853'),(366,'theming','0001_initial','2021-07-30 20:17:43.481669'),(367,'thumbnail','0001_initial','2021-07-30 20:17:43.525617'),(368,'voucher','0007_auto_20190913_1756','2021-07-30 20:17:43.699168'),(369,'voucher','0008_auto_20191115_2151','2021-07-30 20:17:43.769082'),(370,'voucher','0009_historicalvoucherapplication','2021-07-30 20:17:43.854623'),(371,'voucher','0010_auto_20200305_1448','2021-07-30 20:17:43.975907'),(372,'voucher','0011_auto_20200403_2046','2021-07-30 20:17:44.193263'),(373,'voucher','0012_voucher_is_public','2021-07-30 20:17:44.244402'),(374,'waffle','0002_auto_20161201_0958','2021-07-30 20:17:44.260548'),(375,'waffle','0003_update_strings_for_i18n','2021-07-30 20:17:45.516665'),(376,'waffle','0004_update_everyone_nullbooleanfield','2021-07-30 20:17:45.558149'),(377,'wishlists','0001_initial','2021-07-30 20:17:45.861169'),(378,'wishlists','0002_auto_20160111_1108','2021-07-30 20:17:45.973158'),(379,'wishlists','0003_auto_20181115_1953','2021-07-30 20:17:46.010322'),(380,'social_django','0002_add_related_name','2021-07-30 20:17:46.020080'),(381,'social_django','0004_auto_20160423_0400','2021-07-30 20:17:46.025044'),(382,'social_django','0005_auto_20160727_2333','2021-07-30 20:17:46.029806'),(383,'social_django','0003_alter_email_max_length','2021-07-30 20:17:46.034607'),(384,'social_django','0001_initial','2021-07-30 20:17:46.039091'),(385,'auth','0012_alter_user_first_name_max_length','2023-02-10 18:42:15.564308'),(386,'basket','0014_line_date_updated','2023-02-10 18:42:16.051700'),(387,'basket','0015_add_paymentintentid','2023-02-10 18:42:16.288390'),(388,'catalogue','0053_auto_20210922_1857','2023-02-10 18:42:17.723335'),(389,'catalogue','0054_add_variant_id_product_attr','2023-02-10 18:42:17.911469'),(390,'communication','0001_initial','2023-02-10 18:42:18.390924'),(391,'core','0066_remove_account_microfrontend_url_field_from_SiteConfiguration','2023-02-10 18:42:18.495968'),(392,'order','0025_auto_20210922_1857','2023-02-10 18:42:19.152840'),(393,'customer','0007_auto_20211213_1702','2023-02-10 18:42:19.587790'),(394,'offer','0050_templatefileattachment','2023-02-10 18:42:19.642152'),(395,'offer','0051_offerusageemail_email_type','2023-02-10 18:42:19.691346'),(396,'offer','0052_jsonfield_codeassignmentnudgeemails_offerusageemail','2023-02-10 18:42:19.732633'),(397,'payment','0032_alter_source_card_type','2023-02-10 18:42:19.783477'),(398,'iap','0001_initial','2023-02-21 14:38:06.821459'),(399,'iap','0002_paymentprocessorresponseextension','2023-02-21 14:38:07.479341'),(400,'catalogue','0055_sf_opp_line_item_ent_attr','2023-11-10 22:28:55.868089'),(401,'iap','0003_iapprocessorconfiguration_android_refunds_age_in_days','2023-11-10 22:28:59.407192'),(402,'iap','0004_create_disbale_mobile_repeat_order_switch','2023-11-10 22:29:00.087996'),(403,'iap','0005_paymentprocessorresponseextension_meta_data','2023-11-10 22:29:04.614430'),(404,'iap','0006_iapprocessorconfiguration_mobile_team_email','2023-11-10 22:29:05.706106'),(405,'offer','0053_auto_20230601_1425','2023-11-10 22:29:07.212400'),(406,'offer','0054_auto_20230601_2037','2023-11-10 22:29:07.641137'),(407,'social_django','0011_alter_id_fields','2023-11-10 22:29:19.586699');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1773,14 +1773,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL,
   PRIMARY KEY (`session_key`),
   KEY `django_session_expire_date_a5c62663` (`expire_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1797,14 +1797,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `django_site` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `domain` varchar(100) NOT NULL,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_site_domain_a2e37b91_uniq` (`domain`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1822,9 +1822,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ecommerce_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
@@ -1837,11 +1837,11 @@ CREATE TABLE `ecommerce_user` (
   `date_joined` datetime(6) NOT NULL,
   `full_name` varchar(255) DEFAULT NULL,
   `tracking_context` longtext,
-  `lms_user_id` int(11) DEFAULT NULL,
+  `lms_user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   KEY `ecommerce_user_email_f3125e14` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1859,17 +1859,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ecommerce_user_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ecommerce_user_groups_user_id_group_id_2a9a583d_uniq` (`user_id`,`group_id`),
   KEY `ecommerce_user_groups_group_id_a8fd9cb8_fk_auth_group_id` (`group_id`),
   CONSTRAINT `ecommerce_user_groups_group_id_a8fd9cb8_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   CONSTRAINT `ecommerce_user_groups_user_id_60d58887_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1886,17 +1886,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `ecommerce_user_user_permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `permission_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ecommerce_user_user_perm_user_id_permission_id_6d807de6_uniq` (`user_id`,`permission_id`),
   KEY `ecommerce_user_user__permission_id_4dc38e40_fk_auth_perm` (`permission_id`),
   CONSTRAINT `ecommerce_user_user__permission_id_4dc38e40_fk_auth_perm` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
   CONSTRAINT `ecommerce_user_user__user_id_0ceec4a8_fk_ecommerce` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1914,12 +1914,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `iap_iapprocessorconfiguration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `retry_attempts` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int NOT NULL AUTO_INCREMENT,
+  `retry_attempts` smallint unsigned NOT NULL,
+  `android_refunds_age_in_days` smallint unsigned NOT NULL,
+  `mobile_team_email` varchar(254) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `iap_iapprocessorconfiguration_chk_1` CHECK ((`android_refunds_age_in_days` >= 0))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1936,15 +1939,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `iap_paymentprocessorresponseextension` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `original_transaction_id` varchar(255) DEFAULT NULL,
-  `processor_response_id` int(11) NOT NULL,
+  `processor_response_id` int NOT NULL,
+  `meta_data` longtext NOT NULL DEFAULT (_utf8mb3'{}'),
   PRIMARY KEY (`id`),
   UNIQUE KEY `processor_response_id` (`processor_response_id`),
   CONSTRAINT `iap_paymentprocessor_processor_response_i_1f82f331_fk_payment_p` FOREIGN KEY (`processor_response_id`) REFERENCES `payment_paymentprocessorresponse` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1961,9 +1965,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `invoice_historicalinvoice` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `state` varchar(255) NOT NULL,
@@ -1971,16 +1975,16 @@ CREATE TABLE `invoice_historicalinvoice` (
   `type` varchar(255) DEFAULT NULL,
   `payment_date` datetime(6) DEFAULT NULL,
   `discount_type` varchar(255) DEFAULT NULL,
-  `discount_value` int(10) unsigned DEFAULT NULL,
-  `tax_deducted_source` int(10) unsigned DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `discount_value` int unsigned DEFAULT NULL,
+  `tax_deducted_source` int unsigned DEFAULT NULL,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
-  `business_client_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
+  `business_client_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `invoice_historicalin_history_user_id_65f31e67_fk_ecommerce` (`history_user_id`),
   KEY `invoice_historicalinvoice_id_2ccb1da5` (`id`),
@@ -1988,7 +1992,7 @@ CREATE TABLE `invoice_historicalinvoice` (
   KEY `invoice_historicalinvoice_business_client_id_17658c64` (`business_client_id`),
   KEY `invoice_historicalinvoice_order_id_e8a59d8c` (`order_id`),
   CONSTRAINT `invoice_historicalin_history_user_id_65f31e67_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2005,20 +2009,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `invoice_invoice` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `state` varchar(255) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
-  `business_client_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
+  `business_client_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
   `discount_type` varchar(255) DEFAULT NULL,
-  `discount_value` int(10) unsigned DEFAULT NULL,
+  `discount_value` int unsigned DEFAULT NULL,
   `number` varchar(255) DEFAULT NULL,
   `payment_date` datetime(6) DEFAULT NULL,
-  `tax_deducted_source` int(10) unsigned DEFAULT NULL,
+  `tax_deducted_source` int unsigned DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `invoice_invoice_basket_id_8795b83e_fk_basket_basket_id` (`basket_id`),
@@ -2027,7 +2031,7 @@ CREATE TABLE `invoice_invoice` (
   CONSTRAINT `invoice_invoice_basket_id_8795b83e_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
   CONSTRAINT `invoice_invoice_business_client_id_44a4b698_fk_core_busi` FOREIGN KEY (`business_client_id`) REFERENCES `core_businessclient` (`id`),
   CONSTRAINT `invoice_invoice_order_id_c5fc9ae9_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2044,18 +2048,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_benefit` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(128) NOT NULL,
   `value` decimal(12,2) DEFAULT NULL,
-  `max_affected_items` int(10) unsigned DEFAULT NULL,
+  `max_affected_items` int unsigned DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `range_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_benefit_range_id_ab19c5ab_fk_offer_range_id` (`range_id`),
   CONSTRAINT `offer_benefit_range_id_ab19c5ab_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2073,9 +2077,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_codeassignmentnudgeemails` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `code` varchar(128) NOT NULL,
@@ -2083,14 +2087,14 @@ CREATE TABLE `offer_codeassignmentnudgeemails` (
   `email_date` datetime(6) NOT NULL,
   `already_sent` tinyint(1) NOT NULL,
   `is_subscribed` tinyint(1) NOT NULL,
-  `email_template_id` int(11) NOT NULL,
+  `email_template_id` int NOT NULL,
   `options` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_codeassignmentnudg_email_template_id_code_u_cdd86ccf_uniq` (`email_template_id`,`code`,`user_email`),
   KEY `offer_codeassignmentnudgeemails_code_52171461` (`code`),
   KEY `offer_codeassignmentnudgeemails_user_email_83439c0f` (`user_email`),
   CONSTRAINT `offer_codeassignment_email_template_id_efc35dca_fk_offer_cod` FOREIGN KEY (`email_template_id`) REFERENCES `offer_codeassignmentnudgeemailtemplates` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2107,9 +2111,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_codeassignmentnudgeemailtemplates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `email_greeting` longtext,
@@ -2119,7 +2123,7 @@ CREATE TABLE `offer_codeassignmentnudgeemailtemplates` (
   `name` varchar(255) NOT NULL,
   `email_type` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2137,13 +2141,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_condition` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(128) NOT NULL,
   `value` decimal(12,2) DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `range_id` int DEFAULT NULL,
   `program_uuid` char(32) DEFAULT NULL,
   `enterprise_customer_catalog_uuid` char(32) DEFAULT NULL,
   `enterprise_customer_name` varchar(255) DEFAULT NULL,
@@ -2154,7 +2158,7 @@ CREATE TABLE `offer_condition` (
   KEY `offer_condition_program_uuid_c7867a22` (`program_uuid`),
   KEY `offer_condi_enterpr_611782_idx` (`enterprise_customer_uuid`,`program_uuid`),
   CONSTRAINT `offer_condition_range_id_b023a2aa_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2172,37 +2176,38 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_conditionaloffer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `slug` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
   `offer_type` varchar(128) NOT NULL,
   `status` varchar(64) NOT NULL,
-  `priority` int(11) NOT NULL,
+  `priority` int NOT NULL,
   `start_datetime` datetime(6) DEFAULT NULL,
   `end_datetime` datetime(6) DEFAULT NULL,
-  `max_global_applications` int(10) unsigned DEFAULT NULL,
-  `max_user_applications` int(10) unsigned DEFAULT NULL,
-  `max_basket_applications` int(10) unsigned DEFAULT NULL,
+  `max_global_applications` int unsigned DEFAULT NULL,
+  `max_user_applications` int unsigned DEFAULT NULL,
+  `max_basket_applications` int unsigned DEFAULT NULL,
   `max_discount` decimal(12,2) DEFAULT NULL,
   `total_discount` decimal(12,2) NOT NULL,
-  `num_applications` int(10) unsigned NOT NULL,
-  `num_orders` int(10) unsigned NOT NULL,
+  `num_applications` int unsigned NOT NULL,
+  `num_orders` int unsigned NOT NULL,
   `redirect_url` varchar(200) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `benefit_id` int(11) NOT NULL,
-  `condition_id` int(11) NOT NULL,
+  `benefit_id` int NOT NULL,
+  `condition_id` int NOT NULL,
   `email_domains` varchar(255) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
   `exclusive` tinyint(1) NOT NULL,
-  `enterprise_contract_metadata_id` int(11) DEFAULT NULL,
+  `enterprise_contract_metadata_id` int DEFAULT NULL,
   `sales_force_id` varchar(30) DEFAULT NULL,
   `max_user_discount` decimal(12,2) DEFAULT NULL,
   `emails_for_usage_alert` longtext NOT NULL,
   `usage_email_frequency` varchar(8) NOT NULL,
+  `salesforce_opportunity_line_item` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `slug` (`slug`),
@@ -2217,7 +2222,7 @@ CREATE TABLE `offer_conditionaloffer` (
   CONSTRAINT `offer_conditionaloffer_benefit_id_f43f68b5_fk_offer_benefit_id` FOREIGN KEY (`benefit_id`) REFERENCES `offer_benefit` (`id`),
   CONSTRAINT `offer_conditionaloffer_partner_id_49d043f6_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `offer_conditionaloffer_site_id_4409fcc5_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2226,7 +2231,7 @@ CREATE TABLE `offer_conditionaloffer` (
 
 LOCK TABLES `offer_conditionaloffer` WRITE;
 /*!40000 ALTER TABLE `offer_conditionaloffer` DISABLE KEYS */;
-INSERT INTO `offer_conditionaloffer` VALUES (1,'dynamic_conditional_offer','dynamic_conditional_offer','','Site','Open',-10,NULL,NULL,NULL,NULL,1,NULL,0.00,0,0,'','2021-07-30 20:17:30.665775',1,1,NULL,NULL,NULL,1,NULL,NULL,NULL,'','DAILY');
+INSERT INTO `offer_conditionaloffer` VALUES (1,'dynamic_conditional_offer','dynamic_conditional_offer','','Site','Open',-10,NULL,NULL,NULL,NULL,1,NULL,0.00,0,0,'','2021-07-30 20:17:30.665775',1,1,NULL,NULL,NULL,1,NULL,NULL,NULL,'','DAILY',NULL);
 /*!40000 ALTER TABLE `offer_conditionaloffer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2235,25 +2240,25 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalbenefit` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `type` varchar(128) NOT NULL,
   `value` decimal(12,2) DEFAULT NULL,
-  `max_affected_items` int(10) unsigned DEFAULT NULL,
+  `max_affected_items` int unsigned DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `range_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `offer_historicalbene_history_user_id_dfe92ba2_fk_ecommerce` (`history_user_id`),
   KEY `offer_historicalbenefit_id_5ae867db` (`id`),
   KEY `offer_historicalbenefit_range_id_4e48c034` (`range_id`),
   CONSTRAINT `offer_historicalbene_history_user_id_dfe92ba2_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2270,9 +2275,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalcondition` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `type` varchar(128) NOT NULL,
   `value` decimal(12,2) DEFAULT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
@@ -2280,12 +2285,12 @@ CREATE TABLE `offer_historicalcondition` (
   `enterprise_customer_name` varchar(255) DEFAULT NULL,
   `enterprise_customer_catalog_uuid` char(32) DEFAULT NULL,
   `program_uuid` char(32) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `range_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `offer_historicalcond_history_user_id_a6c808f1_fk_ecommerce` (`history_user_id`),
   KEY `offer_historicalcondition_id_5795fc09` (`id`),
@@ -2293,7 +2298,7 @@ CREATE TABLE `offer_historicalcondition` (
   KEY `offer_historicalcondition_enterprise_customer_uuid_8cbe4b71` (`enterprise_customer_uuid`),
   KEY `offer_historicalcondition_program_uuid_db121fa3` (`program_uuid`),
   CONSTRAINT `offer_historicalcond_history_user_id_a6c808f1_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2310,41 +2315,42 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalconditionaloffer` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
   `offer_type` varchar(128) NOT NULL,
   `status` varchar(64) NOT NULL,
-  `priority` int(11) NOT NULL,
+  `priority` int NOT NULL,
   `start_datetime` datetime(6) DEFAULT NULL,
   `end_datetime` datetime(6) DEFAULT NULL,
-  `max_global_applications` int(10) unsigned DEFAULT NULL,
-  `max_user_applications` int(10) unsigned DEFAULT NULL,
-  `max_basket_applications` int(10) unsigned DEFAULT NULL,
+  `max_global_applications` int unsigned DEFAULT NULL,
+  `max_user_applications` int unsigned DEFAULT NULL,
+  `max_basket_applications` int unsigned DEFAULT NULL,
   `max_discount` decimal(12,2) DEFAULT NULL,
   `total_discount` decimal(12,2) NOT NULL,
-  `num_applications` int(10) unsigned NOT NULL,
-  `num_orders` int(10) unsigned NOT NULL,
+  `num_applications` int unsigned NOT NULL,
+  `num_orders` int unsigned NOT NULL,
   `redirect_url` varchar(200) NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `email_domains` varchar(255) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `benefit_id` int(11) DEFAULT NULL,
-  `condition_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `benefit_id` int DEFAULT NULL,
+  `condition_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   `exclusive` tinyint(1) NOT NULL,
-  `enterprise_contract_metadata_id` int(11) DEFAULT NULL,
+  `enterprise_contract_metadata_id` int DEFAULT NULL,
   `sales_force_id` varchar(30) DEFAULT NULL,
   `max_user_discount` decimal(12,2) DEFAULT NULL,
   `emails_for_usage_alert` longtext NOT NULL,
   `usage_email_frequency` varchar(8) NOT NULL,
+  `salesforce_opportunity_line_item` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `offer_historicalcond_history_user_id_1dfce220_fk_ecommerce` (`history_user_id`),
   KEY `offer_historicalconditionaloffer_id_5f516738` (`id`),
@@ -2356,7 +2362,7 @@ CREATE TABLE `offer_historicalconditionaloffer` (
   KEY `offer_historicalconditional_enterprise_contract_metadat_045a388a` (`enterprise_contract_metadata_id`),
   KEY `offer_historicalconditionaloffer_priority_bf718df5` (`priority`),
   CONSTRAINT `offer_historicalcond_history_user_id_1dfce220_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2373,21 +2379,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalofferassignment` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `code` varchar(128) NOT NULL,
   `user_email` varchar(254) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `offer_id` int(11) DEFAULT NULL,
-  `voucher_application_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `offer_id` int DEFAULT NULL,
+  `voucher_application_id` int DEFAULT NULL,
   `assignment_date` datetime(6) DEFAULT NULL,
   `last_reminder_date` datetime(6) DEFAULT NULL,
   `revocation_date` datetime(6) DEFAULT NULL,
@@ -2400,7 +2406,7 @@ CREATE TABLE `offer_historicalofferassignment` (
   KEY `offer_historicalofferassignment_status_b6ad38e7` (`status`),
   KEY `offer_historicalofferassignment_user_email_c90e77a8` (`user_email`),
   CONSTRAINT `offer_historicaloffe_history_user_id_9cf22206_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2417,9 +2423,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalrange` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
   `is_public` tinyint(1) NOT NULL,
@@ -2427,16 +2433,16 @@ CREATE TABLE `offer_historicalrange` (
   `proxy_class` varchar(255) DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
   `catalog_query` longtext,
-  `course_catalog` int(10) unsigned DEFAULT NULL,
+  `course_catalog` int unsigned DEFAULT NULL,
   `enterprise_customer` char(32) DEFAULT NULL,
   `enterprise_customer_catalog` char(32) DEFAULT NULL,
   `course_seat_types` varchar(255) DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `catalog_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `catalog_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `offer_historicalrang_history_user_id_c7c79383_fk_ecommerce` (`history_user_id`),
   KEY `offer_historicalrange_id_5ff50be3` (`id`),
@@ -2444,7 +2450,7 @@ CREATE TABLE `offer_historicalrange` (
   KEY `offer_historicalrange_proxy_class_be5f4b6b` (`proxy_class`),
   KEY `offer_historicalrange_catalog_id_dc747bbd` (`catalog_id`),
   CONSTRAINT `offer_historicalrang_history_user_id_c7c79383_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2461,24 +2467,24 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_historicalrangeproduct` (
-  `id` int(11) NOT NULL,
-  `display_order` int(11) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL,
+  `display_order` int NOT NULL,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `range_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `range_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `offer_historicalrang_history_user_id_c876d862_fk_ecommerce` (`history_user_id`),
   KEY `offer_historicalrangeproduct_id_11a3ed6a` (`id`),
   KEY `offer_historicalrangeproduct_product_id_2f38aabe` (`product_id`),
   KEY `offer_historicalrangeproduct_range_id_a34f98bb` (`range_id`),
   CONSTRAINT `offer_historicalrang_history_user_id_c876d862_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2495,16 +2501,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_offerassignment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `code` varchar(128) NOT NULL,
   `user_email` varchar(254) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `offer_id` int(11) NOT NULL,
-  `voucher_application_id` int(11) DEFAULT NULL,
+  `offer_id` int NOT NULL,
+  `voucher_application_id` int DEFAULT NULL,
   `assignment_date` datetime(6) DEFAULT NULL,
   `last_reminder_date` datetime(6) DEFAULT NULL,
   `revocation_date` datetime(6) DEFAULT NULL,
@@ -2518,7 +2524,7 @@ CREATE TABLE `offer_offerassignment` (
   KEY `offer_offer_code_4aa171_idx` (`code`,`status`),
   CONSTRAINT `offer_offerassignmen_offer_id_db7eea58_fk_offer_con` FOREIGN KEY (`offer_id`) REFERENCES `offer_conditionaloffer` (`id`),
   CONSTRAINT `offer_offerassignmen_voucher_application__85ebbc90_fk_voucher_v` FOREIGN KEY (`voucher_application_id`) REFERENCES `voucher_voucherapplication` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2535,16 +2541,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_offerassignmentemailattempt` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `send_id` varchar(255) NOT NULL,
-  `offer_assignment_id` int(11) NOT NULL,
+  `offer_assignment_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `send_id` (`send_id`),
   KEY `offer_offerassignmen_offer_assignment_id_64f0cff1_fk_offer_off` (`offer_assignment_id`),
   CONSTRAINT `offer_offerassignmen_offer_assignment_id_64f0cff1_fk_offer_off` FOREIGN KEY (`offer_assignment_id`) REFERENCES `offer_offerassignment` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2561,24 +2567,24 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_offerassignmentemailsentrecord` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `enterprise_customer` char(32) NOT NULL,
   `email_type` varchar(32) NOT NULL,
-  `template_id` int(10) unsigned DEFAULT NULL,
-  `template_content_type_id` int(11) DEFAULT NULL,
+  `template_id` int unsigned DEFAULT NULL,
+  `template_content_type_id` int DEFAULT NULL,
   `code` varchar(128) DEFAULT NULL,
-  `receiver_id` int(10) unsigned DEFAULT NULL,
+  `receiver_id` int unsigned DEFAULT NULL,
   `sender_category` varchar(32) DEFAULT NULL,
-  `sender_id` int(10) unsigned DEFAULT NULL,
+  `sender_id` int unsigned DEFAULT NULL,
   `user_email` varchar(254) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_offerassignmen_template_content_typ_44b5ef4a_fk_django_co` (`template_content_type_id`),
   CONSTRAINT `offer_offerassignmen_template_content_typ_44b5ef4a_fk_django_co` FOREIGN KEY (`template_content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2595,9 +2601,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_offerassignmentemailtemplates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `enterprise_customer` char(32) NOT NULL,
@@ -2609,7 +2615,7 @@ CREATE TABLE `offer_offerassignmentemailtemplates` (
   `email_subject` longtext,
   PRIMARY KEY (`id`),
   KEY `offer_offer_enterpr_a9dd7f_idx` (`enterprise_customer`,`email_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2626,18 +2632,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_offerusageemail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `offer_email_metadata` longtext NOT NULL,
-  `offer_id` int(11) NOT NULL,
+  `offer_id` int NOT NULL,
   `email_type` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_offerusageemai_offer_id_f3c4d8e7_fk_offer_con` (`offer_id`),
   CONSTRAINT `offer_offerusageemai_offer_id_f3c4d8e7_fk_offer_con` FOREIGN KEY (`offer_id`) REFERENCES `offer_conditionaloffer` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2654,9 +2660,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_range` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `slug` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
@@ -2664,10 +2670,10 @@ CREATE TABLE `offer_range` (
   `includes_all_products` tinyint(1) NOT NULL,
   `proxy_class` varchar(255) DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
-  `catalog_id` int(11) DEFAULT NULL,
+  `catalog_id` int DEFAULT NULL,
   `catalog_query` longtext,
   `course_seat_types` varchar(255) DEFAULT NULL,
-  `course_catalog` int(10) unsigned DEFAULT NULL,
+  `course_catalog` int unsigned DEFAULT NULL,
   `enterprise_customer` char(32) DEFAULT NULL,
   `enterprise_customer_catalog` char(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -2676,7 +2682,7 @@ CREATE TABLE `offer_range` (
   UNIQUE KEY `proxy_class` (`proxy_class`),
   KEY `offer_range_catalog_id_10237996_fk_catalogue_catalog_id` (`catalog_id`),
   CONSTRAINT `offer_range_catalog_id_10237996_fk_catalogue_catalog_id` FOREIGN KEY (`catalog_id`) REFERENCES `catalogue_catalog` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2693,17 +2699,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_range_classes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `range_id` int(11) NOT NULL,
-  `productclass_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `range_id` int NOT NULL,
+  `productclass_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_range_classes_range_id_productclass_id_28eeefae_uniq` (`range_id`,`productclass_id`),
   KEY `offer_range_classes_productclass_id_6f6de46d_fk_catalogue` (`productclass_id`),
   CONSTRAINT `offer_range_classes_productclass_id_6f6de46d_fk_catalogue` FOREIGN KEY (`productclass_id`) REFERENCES `catalogue_productclass` (`id`),
   CONSTRAINT `offer_range_classes_range_id_7d3e573e_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2720,17 +2726,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_range_excluded_products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `range_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `range_id` int NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_range_excluded_products_range_id_product_id_eb1cfe87_uniq` (`range_id`,`product_id`),
   KEY `offer_range_excluded_product_id_78c49bfc_fk_catalogue` (`product_id`),
   CONSTRAINT `offer_range_excluded_product_id_78c49bfc_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `offer_range_excluded_range_id_cce4a032_fk_offer_ran` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2747,17 +2753,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_range_included_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `range_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `range_id` int NOT NULL,
+  `category_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_range_included_cat_range_id_category_id_a661d336_uniq` (`range_id`,`category_id`),
   KEY `offer_range_included_category_id_c61569a5_fk_catalogue` (`category_id`),
   CONSTRAINT `offer_range_included_category_id_c61569a5_fk_catalogue` FOREIGN KEY (`category_id`) REFERENCES `catalogue_category` (`id`),
   CONSTRAINT `offer_range_included_range_id_1b616138_fk_offer_ran` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2774,18 +2780,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_rangeproduct` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `display_order` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `range_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `display_order` int NOT NULL,
+  `product_id` int NOT NULL,
+  `range_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_rangeproduct_range_id_product_id_c46b1be8_uniq` (`range_id`,`product_id`),
   KEY `offer_rangeproduct_product_id_723b3ea3_fk_catalogue_product_id` (`product_id`),
   CONSTRAINT `offer_rangeproduct_product_id_723b3ea3_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `offer_rangeproduct_range_id_ee358495_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2802,27 +2808,27 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_rangeproductfileupload` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `filepath` varchar(255) NOT NULL,
-  `size` int(10) unsigned NOT NULL,
+  `size` int unsigned NOT NULL,
   `date_uploaded` datetime(6) NOT NULL,
   `status` varchar(32) NOT NULL,
   `error_message` varchar(255) NOT NULL,
   `date_processed` datetime(6) DEFAULT NULL,
-  `num_new_skus` int(10) unsigned DEFAULT NULL,
-  `num_unknown_skus` int(10) unsigned DEFAULT NULL,
-  `num_duplicate_skus` int(10) unsigned DEFAULT NULL,
-  `range_id` int(11) NOT NULL,
-  `uploaded_by_id` int(11) NOT NULL,
+  `num_new_skus` int unsigned DEFAULT NULL,
+  `num_unknown_skus` int unsigned DEFAULT NULL,
+  `num_duplicate_skus` int unsigned DEFAULT NULL,
+  `range_id` int NOT NULL,
+  `uploaded_by_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_rangeproductfileupload_range_id_c055ebf8_fk_offer_range_id` (`range_id`),
   KEY `offer_rangeproductfi_uploaded_by_id_c01a3250_fk_ecommerce` (`uploaded_by_id`),
   KEY `offer_rangeproductfileupload_date_uploaded_f0a4f9ae` (`date_uploaded`),
   CONSTRAINT `offer_rangeproductfi_uploaded_by_id_c01a3250_fk_ecommerce` FOREIGN KEY (`uploaded_by_id`) REFERENCES `ecommerce_user` (`id`),
   CONSTRAINT `offer_rangeproductfileupload_range_id_c055ebf8_fk_offer_range_id` FOREIGN KEY (`range_id`) REFERENCES `offer_range` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2839,17 +2845,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `offer_templatefileattachment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(256) NOT NULL,
-  `size` int(10) unsigned NOT NULL,
+  `size` int unsigned NOT NULL,
   `url` varchar(300) NOT NULL,
-  `template_id` int(11) NOT NULL,
+  `template_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `offer_templatefileat_template_id_85f1bc1a_fk_offer_off` (`template_id`),
   CONSTRAINT `offer_templatefileat_template_id_85f1bc1a_fk_offer_off` FOREIGN KEY (`template_id`) REFERENCES `offer_offerassignmentemailtemplates` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2866,9 +2872,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_billingaddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -2883,7 +2889,7 @@ CREATE TABLE `order_billingaddress` (
   PRIMARY KEY (`id`),
   KEY `order_billingaddress_country_id_17f57dca_fk_address_c` (`country_id`),
   CONSTRAINT `order_billingaddress_country_id_17f57dca_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2900,19 +2906,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_communicationevent` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date_created` datetime(6) NOT NULL,
-  `event_type_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `event_type_id` int NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_communicatione_event_type_id_4bc9ee29_fk_customer_` (`event_type_id`),
   KEY `order_communicationevent_order_id_94e784ac_fk_order_order_id` (`order_id`),
   KEY `order_communicationevent_date_created_ce404d62` (`date_created`),
   CONSTRAINT `order_communicatione_event_type_id_4bc9ee29_fk_communica` FOREIGN KEY (`event_type_id`) REFERENCES `communication_communicationeventtype` (`id`),
   CONSTRAINT `order_communicationevent_order_id_94e784ac_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2929,16 +2935,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_historicalline` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `partner_name` varchar(128) NOT NULL,
   `partner_sku` varchar(128) NOT NULL,
   `partner_line_reference` varchar(128) NOT NULL,
   `partner_line_notes` longtext NOT NULL,
   `title` varchar(255) NOT NULL,
   `upc` varchar(128) DEFAULT NULL,
-  `quantity` int(10) unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
   `line_price_incl_tax` decimal(12,2) NOT NULL,
   `line_price_excl_tax` decimal(12,2) NOT NULL,
   `line_price_before_discounts_incl_tax` decimal(12,2) NOT NULL,
@@ -2949,15 +2955,15 @@ CREATE TABLE `order_historicalline` (
   `unit_retail_price` decimal(12,2) DEFAULT NULL,
   `status` varchar(255) NOT NULL,
   `est_dispatch_date` date DEFAULT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `stockrecord_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `stockrecord_id` int DEFAULT NULL,
   `effective_contract_discount_percentage` decimal(8,5) DEFAULT NULL,
   `effective_contract_discounted_price` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`history_id`),
@@ -2968,7 +2974,7 @@ CREATE TABLE `order_historicalline` (
   KEY `order_historicalline_product_id_647be269` (`product_id`),
   KEY `order_historicalline_stockrecord_id_d80d3743` (`stockrecord_id`),
   CONSTRAINT `order_historicalline_history_user_id_0dc6d8a8_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2985,9 +2991,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_historicalorder` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `number` varchar(128) NOT NULL,
   `currency` varchar(12) NOT NULL,
   `total_incl_tax` decimal(12,2) NOT NULL,
@@ -2999,17 +3005,17 @@ CREATE TABLE `order_historicalorder` (
   `status` varchar(100) NOT NULL,
   `guest_email` varchar(254) NOT NULL,
   `date_placed` datetime(6) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
-  `billing_address_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `shipping_address_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
+  `billing_address_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
+  `shipping_address_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `order_historicalorde_history_user_id_107abb44_fk_ecommerce` (`history_user_id`),
   KEY `order_historicalorder_id_0c852165` (`id`),
@@ -3022,7 +3028,7 @@ CREATE TABLE `order_historicalorder` (
   KEY `order_historicalorder_site_id_b4bf684e` (`site_id`),
   KEY `order_historicalorder_user_id_731dcf92` (`user_id`),
   CONSTRAINT `order_historicalorde_history_user_id_107abb44_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3039,23 +3045,23 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_historicalorderdiscount` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `category` varchar(64) NOT NULL,
-  `offer_id` int(10) unsigned DEFAULT NULL,
+  `offer_id` int unsigned DEFAULT NULL,
   `offer_name` varchar(128) NOT NULL,
-  `voucher_id` int(10) unsigned DEFAULT NULL,
+  `voucher_id` int unsigned DEFAULT NULL,
   `voucher_code` varchar(128) NOT NULL,
-  `frequency` int(10) unsigned DEFAULT NULL,
+  `frequency` int unsigned DEFAULT NULL,
   `amount` decimal(12,2) NOT NULL,
   `message` longtext NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `order_historicalorde_history_user_id_a6bb38a1_fk_ecommerce` (`history_user_id`),
   KEY `order_historicalorderdiscount_id_e9cee7a5` (`id`),
@@ -3063,7 +3069,7 @@ CREATE TABLE `order_historicalorderdiscount` (
   KEY `order_historicalorderdiscount_voucher_code_88be3366` (`voucher_code`),
   KEY `order_historicalorderdiscount_order_id_c77bc9d4` (`order_id`),
   CONSTRAINT `order_historicalorde_history_user_id_a6bb38a1_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3080,16 +3086,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_line` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `partner_name` varchar(128) NOT NULL,
   `partner_sku` varchar(128) NOT NULL,
   `partner_line_reference` varchar(128) NOT NULL,
   `partner_line_notes` longtext NOT NULL,
   `title` varchar(255) NOT NULL,
   `upc` varchar(128) DEFAULT NULL,
-  `quantity` int(10) unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
   `line_price_incl_tax` decimal(12,2) NOT NULL,
   `line_price_excl_tax` decimal(12,2) NOT NULL,
   `line_price_before_discounts_incl_tax` decimal(12,2) NOT NULL,
@@ -3100,10 +3106,10 @@ CREATE TABLE `order_line` (
   `unit_retail_price` decimal(12,2) DEFAULT NULL,
   `status` varchar(255) NOT NULL,
   `est_dispatch_date` date DEFAULT NULL,
-  `order_id` int(11) NOT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `stockrecord_id` int(11) DEFAULT NULL,
+  `order_id` int NOT NULL,
+  `partner_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `stockrecord_id` int DEFAULT NULL,
   `effective_contract_discount_percentage` decimal(8,5) DEFAULT NULL,
   `effective_contract_discounted_price` decimal(12,2) DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -3115,7 +3121,7 @@ CREATE TABLE `order_line` (
   CONSTRAINT `order_line_partner_id_258a2fb9_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `order_line_product_id_e620902d_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `order_line_stockrecord_id_1d65aff5_fk_partner_stockrecord_id` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3132,19 +3138,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_lineattribute` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `type` varchar(128) NOT NULL,
   `value` varchar(255) NOT NULL,
-  `line_id` int(11) NOT NULL,
-  `option_id` int(11) DEFAULT NULL,
+  `line_id` int NOT NULL,
+  `option_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_lineattribute_line_id_adf6dd87_fk_order_line_id` (`line_id`),
   KEY `order_lineattribute_option_id_b54d597c_fk_catalogue_option_id` (`option_id`),
   CONSTRAINT `order_lineattribute_line_id_adf6dd87_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`),
   CONSTRAINT `order_lineattribute_option_id_b54d597c_fk_catalogue_option_id` FOREIGN KEY (`option_id`) REFERENCES `catalogue_option` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3161,22 +3167,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_lineprice` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quantity` int(10) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantity` int unsigned NOT NULL,
   `price_incl_tax` decimal(12,2) NOT NULL,
   `price_excl_tax` decimal(12,2) NOT NULL,
   `shipping_incl_tax` decimal(12,2) NOT NULL,
   `shipping_excl_tax` decimal(12,2) NOT NULL,
-  `line_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `line_id` int NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_lineprice_line_id_2de52446_fk_order_line_id` (`line_id`),
   KEY `order_lineprice_order_id_66792e56_fk_order_order_id` (`order_id`),
   CONSTRAINT `order_lineprice_line_id_2de52446_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`),
   CONSTRAINT `order_lineprice_order_id_66792e56_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3193,17 +3199,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_markordersstatuscompleteconfig` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `change_date` datetime(6) NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `txt_file` varchar(100) NOT NULL,
-  `changed_by_id` int(11) DEFAULT NULL,
+  `changed_by_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_markordersstat_changed_by_id_84d0d0ba_fk_ecommerce` (`changed_by_id`),
   CONSTRAINT `order_markordersstat_changed_by_id_84d0d0ba_fk_ecommerce` FOREIGN KEY (`changed_by_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3220,9 +3226,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_order` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `number` varchar(128) NOT NULL,
   `currency` varchar(12) NOT NULL,
   `total_incl_tax` decimal(12,2) NOT NULL,
@@ -3234,12 +3240,12 @@ CREATE TABLE `order_order` (
   `status` varchar(100) NOT NULL,
   `guest_email` varchar(254) NOT NULL,
   `date_placed` datetime(6) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
-  `billing_address_id` int(11) DEFAULT NULL,
-  `shipping_address_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
+  `billing_address_id` int DEFAULT NULL,
+  `shipping_address_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `number` (`number`),
   KEY `order_order_basket_id_8b0acbb2_fk_basket_basket_id` (`basket_id`),
@@ -3255,7 +3261,7 @@ CREATE TABLE `order_order` (
   CONSTRAINT `order_order_shipping_address_id_57e64931_fk_order_shi` FOREIGN KEY (`shipping_address_id`) REFERENCES `order_shippingaddress` (`id`),
   CONSTRAINT `order_order_site_id_e27f3526_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`),
   CONSTRAINT `order_order_user_id_7cf9bc2b_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3272,24 +3278,24 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_orderdiscount` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `category` varchar(64) NOT NULL,
-  `offer_id` int(10) unsigned DEFAULT NULL,
+  `offer_id` int unsigned DEFAULT NULL,
   `offer_name` varchar(128) NOT NULL,
-  `voucher_id` int(10) unsigned DEFAULT NULL,
+  `voucher_id` int unsigned DEFAULT NULL,
   `voucher_code` varchar(128) NOT NULL,
-  `frequency` int(10) unsigned DEFAULT NULL,
+  `frequency` int unsigned DEFAULT NULL,
   `amount` decimal(12,2) NOT NULL,
   `message` longtext NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_orderdiscount_order_id_bc91e123_fk_order_order_id` (`order_id`),
   KEY `order_orderdiscount_offer_name_706d6119` (`offer_name`),
   KEY `order_orderdiscount_voucher_code_6ee4f360` (`voucher_code`),
   CONSTRAINT `order_orderdiscount_order_id_bc91e123_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3306,21 +3312,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_ordernote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `note_type` varchar(128) NOT NULL,
   `message` longtext NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `date_updated` datetime(6) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `order_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_ordernote_order_id_7d97583d_fk_order_order_id` (`order_id`),
   KEY `order_ordernote_user_id_48d7a672_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `order_ordernote_order_id_7d97583d_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `order_ordernote_user_id_48d7a672_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3337,18 +3343,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_orderstatuschange` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `old_status` varchar(100) NOT NULL,
   `new_status` varchar(100) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_orderstatuschange_order_id_43efdbe5_fk_order_order_id` (`order_id`),
   KEY `order_orderstatuschange_date_created_a5107b93` (`date_created`),
   CONSTRAINT `order_orderstatuschange_order_id_43efdbe5_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3365,15 +3371,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_paymentevent` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `amount` decimal(12,2) NOT NULL,
   `reference` varchar(128) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `event_type_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `shipping_event_id` int(11) DEFAULT NULL,
+  `event_type_id` int NOT NULL,
+  `order_id` int NOT NULL,
+  `shipping_event_id` int DEFAULT NULL,
   `processor_name` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `order_paymentevent_event_type_id_568c7161_fk_order_pay` (`event_type_id`),
@@ -3383,7 +3389,7 @@ CREATE TABLE `order_paymentevent` (
   CONSTRAINT `order_paymentevent_event_type_id_568c7161_fk_order_pay` FOREIGN KEY (`event_type_id`) REFERENCES `order_paymenteventtype` (`id`),
   CONSTRAINT `order_paymentevent_order_id_395b3e82_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `order_paymentevent_shipping_event_id_213dcfb8_fk_order_shi` FOREIGN KEY (`shipping_event_id`) REFERENCES `order_shippingevent` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3400,18 +3406,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_paymenteventquantity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quantity` int(10) unsigned NOT NULL,
-  `event_id` int(11) NOT NULL,
-  `line_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantity` int unsigned NOT NULL,
+  `event_id` int NOT NULL,
+  `line_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_paymenteventquantity_event_id_line_id_765c5209_uniq` (`event_id`,`line_id`),
   KEY `order_paymenteventquantity_line_id_df44b021_fk_order_line_id` (`line_id`),
   CONSTRAINT `order_paymenteventqu_event_id_a540165a_fk_order_pay` FOREIGN KEY (`event_id`) REFERENCES `order_paymentevent` (`id`),
   CONSTRAINT `order_paymenteventquantity_line_id_df44b021_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3428,15 +3434,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_paymenteventtype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3453,9 +3459,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_shippingaddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -3472,7 +3478,7 @@ CREATE TABLE `order_shippingaddress` (
   PRIMARY KEY (`id`),
   KEY `order_shippingaddres_country_id_29abf9a0_fk_address_c` (`country_id`),
   CONSTRAINT `order_shippingaddres_country_id_29abf9a0_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3489,20 +3495,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_shippingevent` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `notes` longtext NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `event_type_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `event_type_id` int NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_shippingevent_event_type_id_9f1efb20_fk_order_shi` (`event_type_id`),
   KEY `order_shippingevent_order_id_8c031fb6_fk_order_order_id` (`order_id`),
   KEY `order_shippingevent_date_created_74c4a6fa` (`date_created`),
   CONSTRAINT `order_shippingevent_event_type_id_9f1efb20_fk_order_shi` FOREIGN KEY (`event_type_id`) REFERENCES `order_shippingeventtype` (`id`),
   CONSTRAINT `order_shippingevent_order_id_8c031fb6_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3519,18 +3525,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_shippingeventquantity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quantity` int(10) unsigned NOT NULL,
-  `event_id` int(11) NOT NULL,
-  `line_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantity` int unsigned NOT NULL,
+  `event_id` int NOT NULL,
+  `line_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_shippingeventquantity_event_id_line_id_91687107_uniq` (`event_id`,`line_id`),
   KEY `order_shippingeventquantity_line_id_3b089ee0_fk_order_line_id` (`line_id`),
   CONSTRAINT `order_shippingeventq_event_id_1c7fb9c7_fk_order_shi` FOREIGN KEY (`event_id`) REFERENCES `order_shippingevent` (`id`),
   CONSTRAINT `order_shippingeventquantity_line_id_3b089ee0_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3547,15 +3553,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_shippingeventtype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `code` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3573,18 +3579,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order_surcharge` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   `incl_tax` decimal(12,2) NOT NULL,
   `excl_tax` decimal(12,2) NOT NULL,
-  `order_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `order_surcharge_order_id_5c0a94f5_fk_order_order_id` (`order_id`),
   CONSTRAINT `order_surcharge_order_id_5c0a94f5_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3601,17 +3607,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_historicalpartner` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(128) NOT NULL,
   `short_code` varchar(8) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `default_site_id` int(11) DEFAULT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
+  `default_site_id` int DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `partner_historicalpa_history_user_id_971ab75b_fk_ecommerce` (`history_user_id`),
   KEY `partner_historicalpartner_id_4955c403` (`id`),
@@ -3619,7 +3625,7 @@ CREATE TABLE `partner_historicalpartner` (
   KEY `partner_historicalpartner_default_site_id_8f53b529` (`default_site_id`),
   KEY `partner_historicalpartner_name_63933fe9` (`name`),
   CONSTRAINT `partner_historicalpa_history_user_id_971ab75b_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3628,7 +3634,7 @@ CREATE TABLE `partner_historicalpartner` (
 
 LOCK TABLES `partner_historicalpartner` WRITE;
 /*!40000 ALTER TABLE `partner_historicalpartner` DISABLE KEYS */;
-INSERT INTO `partner_historicalpartner` VALUES (1,'','',1,'2021-07-30 20:19:43.421833',NULL,'+',NULL,NULL),(1,'Open edX','edX',2,'2021-07-30 20:19:43.428853',NULL,'~',1,NULL),(1,'Open edX','edX',3,'2023-02-10 18:45:31.101495',NULL,'~',1,NULL),(1,'Open edX','edX',4,'2023-02-21 14:41:44.734565',NULL,'~',1,NULL);
+INSERT INTO `partner_historicalpartner` VALUES (1,'','',1,'2021-07-30 20:19:43.421833',NULL,'+',NULL,NULL),(1,'Open edX','edX',2,'2021-07-30 20:19:43.428853',NULL,'~',1,NULL),(1,'Open edX','edX',3,'2023-02-10 18:45:31.101495',NULL,'~',1,NULL),(1,'Open edX','edX',4,'2023-02-21 14:41:44.734565',NULL,'~',1,NULL),(1,'Open edX','edX',5,'2023-11-10 22:32:37.950879',NULL,'~',1,NULL);
 /*!40000 ALTER TABLE `partner_historicalpartner` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3637,26 +3643,26 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_historicalstockrecord` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `partner_sku` varchar(128) NOT NULL,
   `price_currency` varchar(12) NOT NULL,
   `price_excl_tax` decimal(12,2) DEFAULT NULL,
   `price_retail` decimal(12,2) DEFAULT NULL,
   `cost_price` decimal(12,2) DEFAULT NULL,
-  `num_in_stock` int(10) unsigned DEFAULT NULL,
-  `num_allocated` int(11) DEFAULT NULL,
-  `low_stock_threshold` int(10) unsigned DEFAULT NULL,
+  `num_in_stock` int unsigned DEFAULT NULL,
+  `num_allocated` int DEFAULT NULL,
+  `low_stock_threshold` int unsigned DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
   `date_updated` datetime(6) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `partner_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `partner_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `partner_historicalst_history_user_id_eda90769_fk_ecommerce` (`history_user_id`),
   KEY `partner_historicalstockrecord_id_e529b9d7` (`id`),
@@ -3664,7 +3670,7 @@ CREATE TABLE `partner_historicalstockrecord` (
   KEY `partner_historicalstockrecord_partner_id_5369caa8` (`partner_id`),
   KEY `partner_historicalstockrecord_product_id_e2905583` (`product_id`),
   CONSTRAINT `partner_historicalst_history_user_id_eda90769_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3673,7 +3679,7 @@ CREATE TABLE `partner_historicalstockrecord` (
 
 LOCK TABLES `partner_historicalstockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_historicalstockrecord` DISABLE KEYS */;
-INSERT INTO `partner_historicalstockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2021-07-30 20:19:59.167645',1,'2021-07-30 20:19:59.168481',NULL,'+',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2021-07-30 20:19:59.223319',2,'2021-07-30 20:19:59.223904',NULL,'+',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2021-07-30 20:19:59.256765',3,'2021-07-30 20:19:59.257616',NULL,'+',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-02-10 18:45:44.562796',4,'2023-02-10 18:45:44.564228',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-02-10 18:45:44.638607',5,'2023-02-10 18:45:44.639822',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-02-10 18:45:44.662595',6,'2023-02-10 18:45:44.663876',NULL,'~',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-02-21 14:41:58.514858',7,'2023-02-21 14:41:58.516461',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-02-21 14:41:58.582706',8,'2023-02-21 14:41:58.583888',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-02-21 14:41:58.609763',9,'2023-02-21 14:41:58.611102',NULL,'~',NULL,1,3);
+INSERT INTO `partner_historicalstockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2021-07-30 20:19:59.167645',1,'2021-07-30 20:19:59.168481',NULL,'+',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2021-07-30 20:19:59.223319',2,'2021-07-30 20:19:59.223904',NULL,'+',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2021-07-30 20:19:59.256765',3,'2021-07-30 20:19:59.257616',NULL,'+',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-02-10 18:45:44.562796',4,'2023-02-10 18:45:44.564228',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-02-10 18:45:44.638607',5,'2023-02-10 18:45:44.639822',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-02-10 18:45:44.662595',6,'2023-02-10 18:45:44.663876',NULL,'~',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-02-21 14:41:58.514858',7,'2023-02-21 14:41:58.516461',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-02-21 14:41:58.582706',8,'2023-02-21 14:41:58.583888',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-02-21 14:41:58.609763',9,'2023-02-21 14:41:58.611102',NULL,'~',NULL,1,3),(1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-11-10 22:32:46.165166',10,'2023-11-10 22:32:46.166496',NULL,'~',NULL,1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-11-10 22:32:46.410417',11,'2023-11-10 22:32:46.411551',NULL,'~',NULL,1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-11-10 22:32:46.434654',12,'2023-11-10 22:32:46.435870',NULL,'~',NULL,1,3);
 /*!40000 ALTER TABLE `partner_historicalstockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3682,20 +3688,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_partner` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
   `short_code` varchar(8) NOT NULL,
-  `default_site_id` int(11) DEFAULT NULL,
+  `default_site_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `short_code` (`short_code`),
   UNIQUE KEY `default_site_id` (`default_site_id`),
   KEY `partner_partner_name_caa0c2ee` (`name`),
   CONSTRAINT `partner_partner_default_site_id_c5e08da3_fk_django_site_id` FOREIGN KEY (`default_site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3713,17 +3719,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_partner_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `partner_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `partner_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `partner_partner_users_partner_id_user_id_9e5c0517_uniq` (`partner_id`,`user_id`),
   KEY `partner_partner_users_user_id_d75d6e40_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `partner_partner_users_partner_id_1883dfd9_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `partner_partner_users_user_id_d75d6e40_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3740,9 +3746,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_partneraddress` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(64) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
@@ -3754,13 +3760,13 @@ CREATE TABLE `partner_partneraddress` (
   `postcode` varchar(64) NOT NULL,
   `search_text` longtext NOT NULL,
   `country_id` varchar(2) NOT NULL,
-  `partner_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `partner_partneraddre_country_id_02c4f979_fk_address_c` (`country_id`),
   KEY `partner_partneraddress_partner_id_59551b0a_fk_partner_partner_id` (`partner_id`),
   CONSTRAINT `partner_partneraddre_country_id_02c4f979_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
   CONSTRAINT `partner_partneraddress_partner_id_59551b0a_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3777,19 +3783,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_stockalert` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `threshold` int(10) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `threshold` int unsigned NOT NULL,
   `status` varchar(128) NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `date_closed` datetime(6) DEFAULT NULL,
-  `stockrecord_id` int(11) NOT NULL,
+  `stockrecord_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `partner_stockalert_stockrecord_id_68ad503a_fk_partner_s` (`stockrecord_id`),
   KEY `partner_stockalert_date_created_832cf043` (`date_created`),
   CONSTRAINT `partner_stockalert_stockrecord_id_68ad503a_fk_partner_s` FOREIGN KEY (`stockrecord_id`) REFERENCES `partner_stockrecord` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3806,28 +3812,28 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `partner_stockrecord` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `partner_sku` varchar(128) NOT NULL,
   `price_currency` varchar(12) NOT NULL,
   `price_excl_tax` decimal(12,2) DEFAULT NULL,
   `price_retail` decimal(12,2) DEFAULT NULL,
   `cost_price` decimal(12,2) DEFAULT NULL,
-  `num_in_stock` int(10) unsigned DEFAULT NULL,
-  `num_allocated` int(11) DEFAULT NULL,
-  `low_stock_threshold` int(10) unsigned DEFAULT NULL,
+  `num_in_stock` int unsigned DEFAULT NULL,
+  `num_allocated` int DEFAULT NULL,
+  `low_stock_threshold` int unsigned DEFAULT NULL,
   `date_created` datetime(6) NOT NULL,
   `date_updated` datetime(6) NOT NULL,
-  `partner_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `partner_id` int NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `partner_stockrecord_partner_id_partner_sku_8441e010_uniq` (`partner_id`,`partner_sku`),
   KEY `partner_stockrecord_product_id_62fd9e45_fk_catalogue_product_id` (`product_id`),
   KEY `partner_stockrecord_date_updated_e6ae5f14` (`date_updated`),
   CONSTRAINT `partner_stockrecord_partner_id_4155a586_fk_partner_partner_id` FOREIGN KEY (`partner_id`) REFERENCES `partner_partner` (`id`),
   CONSTRAINT `partner_stockrecord_product_id_62fd9e45_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3836,7 +3842,7 @@ CREATE TABLE `partner_stockrecord` (
 
 LOCK TABLES `partner_stockrecord` WRITE;
 /*!40000 ALTER TABLE `partner_stockrecord` DISABLE KEYS */;
-INSERT INTO `partner_stockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-02-21 14:41:58.514858',1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-02-21 14:41:58.582706',1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-02-21 14:41:58.609763',1,3);
+INSERT INTO `partner_stockrecord` VALUES (1,'68EFFFF','USD',0.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.167603','2023-11-10 22:32:46.165166',1,2),(2,'A5B6DBE','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.223283','2023-11-10 22:32:46.410417',1,4),(3,'8CF08E5','USD',149.00,NULL,NULL,NULL,NULL,NULL,'2021-07-30 20:19:59.256723','2023-11-10 22:32:46.434654',1,3);
 /*!40000 ALTER TABLE `partner_stockrecord` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3845,19 +3851,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_bankcard` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `card_type` varchar(128) NOT NULL,
   `name` varchar(255) NOT NULL,
   `number` varchar(32) NOT NULL,
   `expiry_date` date NOT NULL,
   `partner_reference` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_bankcard_user_id_08e1d04c_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `payment_bankcard_user_id_08e1d04c_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3874,16 +3880,16 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_enterprisecontractmetadata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `amount_paid` decimal(12,2) DEFAULT NULL,
   `discount_value` decimal(15,5) DEFAULT NULL,
   `discount_type` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3900,20 +3906,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_paymentprocessorresponse` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `processor_name` varchar(255) NOT NULL,
   `transaction_id` varchar(255) DEFAULT NULL,
   `response` longtext NOT NULL,
   `created` datetime(6) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_paymentprocessorr_processor_name_transactio_c62034f3_idx` (`processor_name`,`transaction_id`),
   KEY `payment_paymentproce_basket_id_ff3d36a2_fk_basket_ba` (`basket_id`),
   KEY `payment_paymentprocessorresponse_created_412fdf33` (`created`),
   CONSTRAINT `payment_paymentproce_basket_id_ff3d36a2_fk_basket_ba` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3930,12 +3936,12 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_paypalprocessorconfiguration` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `retry_attempts` smallint(5) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `retry_attempts` smallint unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3952,13 +3958,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_paypalwebprofile` (
   `id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3975,21 +3981,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_sdncheckfailure` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `full_name` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `country` varchar(2) NOT NULL,
   `sdn_check_response` longtext NOT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   `city` varchar(32) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_sdncheckfailure_site_id_202cf400_fk_django_site_id` (`site_id`),
   CONSTRAINT `payment_sdncheckfailure_site_id_202cf400_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4006,17 +4012,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_sdncheckfailure_products` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sdncheckfailure_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `sdncheckfailure_id` int NOT NULL,
+  `product_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `payment_sdncheckfailure__sdncheckfailure_id_produ_5e39885c_uniq` (`sdncheckfailure_id`,`product_id`),
   KEY `payment_sdncheckfail_product_id_6d431270_fk_catalogue` (`product_id`),
   CONSTRAINT `payment_sdncheckfail_product_id_6d431270_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `payment_sdncheckfail_sdncheckfailure_id_a8c1f0d4_fk_payment_s` FOREIGN KEY (`sdncheckfailure_id`) REFERENCES `payment_sdncheckfailure` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4033,21 +4039,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_sdnfallbackdata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `source` varchar(255) NOT NULL,
   `sdn_type` varchar(255) NOT NULL,
   `names` longtext NOT NULL,
   `addresses` longtext NOT NULL,
   `countries` varchar(255) NOT NULL,
-  `sdn_fallback_metadata_id` int(11) NOT NULL,
+  `sdn_fallback_metadata_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_sdnfallbackd_sdn_fallback_metadat_ce5c42ba_fk_payment_s` (`sdn_fallback_metadata_id`),
   KEY `payment_sdnfallbackdata_source_fabd7697` (`source`),
   KEY `payment_sdnfallbackdata_sdn_type_09e8362b` (`sdn_type`),
   CONSTRAINT `payment_sdnfallbackd_sdn_fallback_metadat_ce5c42ba_fk_payment_s` FOREIGN KEY (`sdn_fallback_metadata_id`) REFERENCES `payment_sdnfallbackmetadata` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4064,9 +4070,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_sdnfallbackmetadata` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `file_checksum` varchar(255) NOT NULL,
@@ -4075,7 +4081,7 @@ CREATE TABLE `payment_sdnfallbackmetadata` (
   `import_state` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `import_state` (`import_state`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4092,24 +4098,24 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_source` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `currency` varchar(12) NOT NULL,
   `amount_allocated` decimal(12,2) NOT NULL,
   `amount_debited` decimal(12,2) NOT NULL,
   `amount_refunded` decimal(12,2) NOT NULL,
   `reference` varchar(255) NOT NULL,
   `label` varchar(128) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `source_type_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
+  `source_type_id` int NOT NULL,
   `card_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_source_order_id_6b7f2215_fk_order_order_id` (`order_id`),
   KEY `payment_source_source_type_id_700828fe_fk_payment_sourcetype_id` (`source_type_id`),
   CONSTRAINT `payment_source_order_id_6b7f2215_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `payment_source_source_type_id_700828fe_fk_payment_sourcetype_id` FOREIGN KEY (`source_type_id`) REFERENCES `payment_sourcetype` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4126,14 +4132,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_sourcetype` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4150,20 +4156,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `payment_transaction` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `txn_type` varchar(128) NOT NULL,
   `amount` decimal(12,2) NOT NULL,
   `reference` varchar(128) NOT NULL,
   `status` varchar(128) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `source_id` int(11) NOT NULL,
+  `source_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `payment_transaction_source_id_c5ac31e8_fk_payment_source_id` (`source_id`),
   KEY `payment_transaction_date_created_f887f6bc` (`date_created`),
   CONSTRAINT `payment_transaction_source_id_c5ac31e8_fk_payment_source_id` FOREIGN KEY (`source_id`) REFERENCES `payment_source` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4180,15 +4186,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `referrals_referral` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `affiliate_id` varchar(255) NOT NULL,
-  `basket_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `site_id` int(11) DEFAULT NULL,
+  `basket_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `site_id` int DEFAULT NULL,
   `utm_campaign` varchar(255) NOT NULL,
   `utm_content` varchar(255) NOT NULL,
   `utm_created_at` datetime(6) DEFAULT NULL,
@@ -4202,7 +4208,7 @@ CREATE TABLE `referrals_referral` (
   CONSTRAINT `referrals_referral_basket_id_25e1749e_fk_basket_basket_id` FOREIGN KEY (`basket_id`) REFERENCES `basket_basket` (`id`),
   CONSTRAINT `referrals_referral_order_id_170fad6d_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `referrals_referral_site_id_2ba3a624_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4219,28 +4225,28 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `refund_historicalrefund` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `total_credit_excl_tax` decimal(12,2) NOT NULL,
   `currency` varchar(12) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `refund_historicalref_history_user_id_c1853b09_fk_ecommerce` (`history_user_id`),
   KEY `refund_historicalrefund_id_6b2753a1` (`id`),
   KEY `refund_historicalrefund_order_id_1d9b0b20` (`order_id`),
   KEY `refund_historicalrefund_user_id_142a3c52` (`user_id`),
   CONSTRAINT `refund_historicalref_history_user_id_c1853b09_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4257,28 +4263,28 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `refund_historicalrefundline` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `line_credit_excl_tax` decimal(12,2) NOT NULL,
-  `quantity` int(10) unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
   `status` varchar(255) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_line_id` int(11) DEFAULT NULL,
-  `refund_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_line_id` int DEFAULT NULL,
+  `refund_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `refund_historicalref_history_user_id_1b172964_fk_ecommerce` (`history_user_id`),
   KEY `refund_historicalrefundline_id_b5dd937d` (`id`),
   KEY `refund_historicalrefundline_order_line_id_59524c13` (`order_line_id`),
   KEY `refund_historicalrefundline_refund_id_487db801` (`refund_id`),
   CONSTRAINT `refund_historicalref_history_user_id_1b172964_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4295,22 +4301,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `refund_refund` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `total_credit_excl_tax` decimal(12,2) NOT NULL,
   `currency` varchar(12) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `refund_refund_order_id_44bf4b92_fk_order_order_id` (`order_id`),
   KEY `refund_refund_user_id_f10f8f2a_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `refund_refund_order_id_44bf4b92_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `refund_refund_user_id_f10f8f2a_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4327,22 +4333,22 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `refund_refundline` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   `line_credit_excl_tax` decimal(12,2) NOT NULL,
-  `quantity` int(10) unsigned NOT NULL,
+  `quantity` int unsigned NOT NULL,
   `status` varchar(255) NOT NULL,
-  `order_line_id` int(11) NOT NULL,
-  `refund_id` int(11) NOT NULL,
+  `order_line_id` int NOT NULL,
+  `refund_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `refund_refundline_order_line_id_f775827b_fk_order_line_id` (`order_line_id`),
   KEY `refund_refundline_refund_id_a1fc3ad0_fk_refund_refund_id` (`refund_id`),
   CONSTRAINT `refund_refundline_order_line_id_f775827b_fk_order_line_id` FOREIGN KEY (`order_line_id`) REFERENCES `order_line` (`id`),
   CONSTRAINT `refund_refundline_refund_id_a1fc3ad0_fk_refund_refund_id` FOREIGN KEY (`refund_id`) REFERENCES `refund_refund` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4359,28 +4365,28 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews_productreview` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `score` smallint(6) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `score` smallint NOT NULL,
   `title` varchar(255) NOT NULL,
   `body` longtext NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(254) NOT NULL,
   `homepage` varchar(200) NOT NULL,
-  `status` smallint(6) NOT NULL,
-  `total_votes` int(11) NOT NULL,
-  `delta_votes` int(11) NOT NULL,
+  `status` smallint NOT NULL,
+  `total_votes` int NOT NULL,
+  `delta_votes` int NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `reviews_productreview_product_id_user_id_c4fdc4cd_uniq` (`product_id`,`user_id`),
   KEY `reviews_productreview_user_id_8acb5ddd_fk_ecommerce_user_id` (`user_id`),
   KEY `reviews_productreview_delta_votes_bd8ffc87` (`delta_votes`),
   CONSTRAINT `reviews_productrevie_product_id_52e52a32_fk_catalogue` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `reviews_productreview_user_id_8acb5ddd_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4397,19 +4403,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews_vote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `delta` smallint(6) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `delta` smallint NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `review_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `review_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `reviews_vote_user_id_review_id_bb858939_uniq` (`user_id`,`review_id`),
   KEY `reviews_vote_review_id_371b2d8d_fk_reviews_productreview_id` (`review_id`),
   CONSTRAINT `reviews_vote_review_id_371b2d8d_fk_reviews_productreview_id` FOREIGN KEY (`review_id`) REFERENCES `reviews_productreview` (`id`),
   CONSTRAINT `reviews_vote_user_id_5fb87b53_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4426,9 +4432,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_orderanditemcharges` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
@@ -4438,7 +4444,7 @@ CREATE TABLE `shipping_orderanditemcharges` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4455,17 +4461,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_orderanditemcharges_countries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `orderanditemcharges_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `orderanditemcharges_id` int NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `shipping_orderanditemcha_orderanditemcharges_id_c_9f0c9c8f_uniq` (`orderanditemcharges_id`,`country_id`),
   KEY `shipping_orderandite_country_id_30387f2e_fk_address_c` (`country_id`),
   CONSTRAINT `shipping_orderandite_country_id_30387f2e_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
   CONSTRAINT `shipping_orderandite_orderanditemcharges__bf5bfee9_fk_shipping_` FOREIGN KEY (`orderanditemcharges_id`) REFERENCES `shipping_orderanditemcharges` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4482,17 +4488,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_weightband` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `upper_limit` decimal(12,3) NOT NULL,
   `charge` decimal(12,2) NOT NULL,
-  `method_id` int(11) NOT NULL,
+  `method_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `shipping_weightband_method_id_b699a1ba_fk_shipping_` (`method_id`),
   KEY `shipping_weightband_upper_limit_9edc5097` (`upper_limit`),
   CONSTRAINT `shipping_weightband_method_id_b699a1ba_fk_shipping_` FOREIGN KEY (`method_id`) REFERENCES `shipping_weightbased` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4509,9 +4515,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_weightbased` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `code` varchar(128) NOT NULL,
   `name` varchar(128) NOT NULL,
   `description` longtext NOT NULL,
@@ -4519,7 +4525,7 @@ CREATE TABLE `shipping_weightbased` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4536,17 +4542,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shipping_weightbased_countries` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `weightbased_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `weightbased_id` int NOT NULL,
   `country_id` varchar(2) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `shipping_weightbased_cou_weightbased_id_country_i_de8c5e42_uniq` (`weightbased_id`,`country_id`),
   KEY `shipping_weightbased_country_id_06117384_fk_address_c` (`country_id`),
   CONSTRAINT `shipping_weightbased_country_id_06117384_fk_address_c` FOREIGN KEY (`country_id`) REFERENCES `address_country` (`iso_3166_1_a2`),
   CONSTRAINT `shipping_weightbased_weightbased_id_93e3132f_fk_shipping_` FOREIGN KEY (`weightbased_id`) REFERENCES `shipping_weightbased` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4563,18 +4569,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_auth_association` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `server_url` varchar(255) NOT NULL,
   `handle` varchar(255) NOT NULL,
   `secret` varchar(255) NOT NULL,
-  `issued` int(11) NOT NULL,
-  `lifetime` int(11) NOT NULL,
+  `issued` int NOT NULL,
+  `lifetime` int NOT NULL,
   `assoc_type` varchar(64) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `social_auth_association_server_url_handle_078befa2_uniq` (`server_url`,`handle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4591,9 +4597,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_auth_code` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `email` varchar(254) NOT NULL,
   `code` varchar(32) NOT NULL,
   `verified` tinyint(1) NOT NULL,
@@ -4602,7 +4608,7 @@ CREATE TABLE `social_auth_code` (
   UNIQUE KEY `social_auth_code_email_code_801b2d02_uniq` (`email`,`code`),
   KEY `social_auth_code_code_a2393167` (`code`),
   KEY `social_auth_code_timestamp_176b341f` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4619,15 +4625,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_auth_nonce` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `server_url` varchar(255) NOT NULL,
-  `timestamp` int(11) NOT NULL,
+  `timestamp` int NOT NULL,
   `salt` varchar(65) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `social_auth_nonce_server_url_timestamp_salt_f6284463_uniq` (`server_url`,`timestamp`,`salt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4644,18 +4650,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_auth_partial` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `token` varchar(32) NOT NULL,
-  `next_step` smallint(5) unsigned NOT NULL,
+  `next_step` smallint unsigned NOT NULL,
   `backend` varchar(32) NOT NULL,
   `data` longtext NOT NULL,
   `timestamp` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `social_auth_partial_token_3017fea3` (`token`),
   KEY `social_auth_partial_timestamp_50f2119f` (`timestamp`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4672,13 +4678,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `social_auth_usersocialauth` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` bigint NOT NULL AUTO_INCREMENT,
   `provider` varchar(32) NOT NULL,
   `uid` varchar(255) NOT NULL,
   `extra_data` longtext NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` int NOT NULL,
   `created` datetime(6) NOT NULL,
   `modified` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
@@ -4686,7 +4692,7 @@ CREATE TABLE `social_auth_usersocialauth` (
   KEY `social_auth_usersocialauth_user_id_17d28448_fk_ecommerce_user_id` (`user_id`),
   KEY `social_auth_usersocialauth_uid_796e51dc` (`uid`),
   CONSTRAINT `social_auth_usersocialauth_user_id_17d28448_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4703,15 +4709,15 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `theming_sitetheme` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `theme_dir_name` varchar(255) NOT NULL,
-  `site_id` int(11) NOT NULL,
+  `site_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `theming_sitetheme_site_id_fe93d039_fk_django_site_id` (`site_id`),
   CONSTRAINT `theming_sitetheme_site_id_fe93d039_fk_django_site_id` FOREIGN KEY (`site_id`) REFERENCES `django_site` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4728,12 +4734,12 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `thumbnail_kvstore` (
   `key` varchar(200) NOT NULL,
   `value` longtext NOT NULL,
   PRIMARY KEY (`key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4750,14 +4756,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_couponvouchers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `coupon_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `coupon_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `voucher_couponvouche_coupon_id_44356128_fk_catalogue` (`coupon_id`),
   CONSTRAINT `voucher_couponvouche_coupon_id_44356128_fk_catalogue` FOREIGN KEY (`coupon_id`) REFERENCES `catalogue_product` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4774,17 +4780,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_couponvouchers_vouchers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `couponvouchers_id` int(11) NOT NULL,
-  `voucher_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `couponvouchers_id` int NOT NULL,
+  `voucher_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `voucher_couponvouchers_v_couponvouchers_id_vouche_390b5a38_uniq` (`couponvouchers_id`,`voucher_id`),
   KEY `voucher_couponvouche_voucher_id_d5507ed9_fk_voucher_v` (`voucher_id`),
   CONSTRAINT `voucher_couponvouche_couponvouchers_id_ebe4c993_fk_voucher_c` FOREIGN KEY (`couponvouchers_id`) REFERENCES `voucher_couponvouchers` (`id`),
   CONSTRAINT `voucher_couponvouche_voucher_id_d5507ed9_fk_voucher_v` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4801,18 +4807,18 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_historicalvoucherapplication` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `history_id` int(11) NOT NULL AUTO_INCREMENT,
+  `history_id` int NOT NULL AUTO_INCREMENT,
   `history_date` datetime(6) NOT NULL,
   `history_change_reason` varchar(100) DEFAULT NULL,
   `history_type` varchar(1) NOT NULL,
-  `history_user_id` int(11) DEFAULT NULL,
-  `order_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `voucher_id` int(11) DEFAULT NULL,
+  `history_user_id` int DEFAULT NULL,
+  `order_id` int DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
+  `voucher_id` int DEFAULT NULL,
   PRIMARY KEY (`history_id`),
   KEY `voucher_historicalvo_history_user_id_add45a08_fk_ecommerce` (`history_user_id`),
   KEY `voucher_historicalvoucherapplication_id_f6cc2df0` (`id`),
@@ -4820,7 +4826,7 @@ CREATE TABLE `voucher_historicalvoucherapplication` (
   KEY `voucher_historicalvoucherapplication_user_id_0dc6e29e` (`user_id`),
   KEY `voucher_historicalvoucherapplication_voucher_id_529f437b` (`voucher_id`),
   CONSTRAINT `voucher_historicalvo_history_user_id_add45a08_fk_ecommerce` FOREIGN KEY (`history_user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4837,14 +4843,14 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_orderlinevouchers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `line_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `line_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `voucher_orderlinevouchers_line_id_fa3dbd8e_fk_order_line_id` (`line_id`),
   CONSTRAINT `voucher_orderlinevouchers_line_id_fa3dbd8e_fk_order_line_id` FOREIGN KEY (`line_id`) REFERENCES `order_line` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4861,17 +4867,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_orderlinevouchers_vouchers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `orderlinevouchers_id` int(11) NOT NULL,
-  `voucher_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `orderlinevouchers_id` int NOT NULL,
+  `voucher_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `voucher_orderlinevoucher_orderlinevouchers_id_vou_2a30647d_uniq` (`orderlinevouchers_id`,`voucher_id`),
   KEY `voucher_orderlinevou_voucher_id_b8820f35_fk_voucher_v` (`voucher_id`),
   CONSTRAINT `voucher_orderlinevou_orderlinevouchers_id_c916ee3a_fk_voucher_o` FOREIGN KEY (`orderlinevouchers_id`) REFERENCES `voucher_orderlinevouchers` (`id`),
   CONSTRAINT `voucher_orderlinevou_voucher_id_b8820f35_fk_voucher_v` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4888,19 +4894,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_voucher` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
   `code` varchar(128) NOT NULL,
   `usage` varchar(128) NOT NULL,
   `start_datetime` datetime(6) NOT NULL,
   `end_datetime` datetime(6) NOT NULL,
-  `num_basket_additions` int(10) unsigned NOT NULL,
-  `num_orders` int(10) unsigned NOT NULL,
+  `num_basket_additions` int unsigned NOT NULL,
+  `num_orders` int unsigned NOT NULL,
   `total_discount` decimal(12,2) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `voucher_set_id` int(11) DEFAULT NULL,
+  `voucher_set_id` int DEFAULT NULL,
   `is_public` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
@@ -4908,7 +4914,7 @@ CREATE TABLE `voucher_voucher` (
   KEY `voucher_voucher_end_datetime_db182297` (`end_datetime`),
   KEY `voucher_voucher_start_datetime_bfb7df84` (`start_datetime`),
   CONSTRAINT `voucher_voucher_voucher_set_id_17b96a54_fk_voucher_voucherset_id` FOREIGN KEY (`voucher_set_id`) REFERENCES `voucher_voucherset` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4925,17 +4931,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_voucher_offers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `voucher_id` int(11) NOT NULL,
-  `conditionaloffer_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `voucher_id` int NOT NULL,
+  `conditionaloffer_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `voucher_voucher_offers_voucher_id_conditionalof_01628a7f_uniq` (`voucher_id`,`conditionaloffer_id`),
   KEY `voucher_voucher_offe_conditionaloffer_id_f9682bfb_fk_offer_con` (`conditionaloffer_id`),
   CONSTRAINT `voucher_voucher_offe_conditionaloffer_id_f9682bfb_fk_offer_con` FOREIGN KEY (`conditionaloffer_id`) REFERENCES `offer_conditionaloffer` (`id`),
   CONSTRAINT `voucher_voucher_offers_voucher_id_7f9c575d_fk_voucher_voucher_id` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4952,13 +4958,13 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_voucherapplication` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `date_created` datetime(6) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `voucher_id` int(11) NOT NULL,
+  `order_id` int NOT NULL,
+  `user_id` int DEFAULT NULL,
+  `voucher_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `voucher_voucherapplication_order_id_30248a05_fk_order_order_id` (`order_id`),
   KEY `voucher_voucherapplication_user_id_df53a393_fk_ecommerce_user_id` (`user_id`),
@@ -4966,7 +4972,7 @@ CREATE TABLE `voucher_voucherapplication` (
   CONSTRAINT `voucher_voucherappli_voucher_id_5204edb7_fk_voucher_v` FOREIGN KEY (`voucher_id`) REFERENCES `voucher_voucher` (`id`),
   CONSTRAINT `voucher_voucherapplication_order_id_30248a05_fk_order_order_id` FOREIGN KEY (`order_id`) REFERENCES `order_order` (`id`),
   CONSTRAINT `voucher_voucherapplication_user_id_df53a393_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -4983,21 +4989,21 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `voucher_voucherset` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `count` int(10) unsigned NOT NULL,
-  `code_length` int(11) NOT NULL,
+  `count` int unsigned NOT NULL,
+  `code_length` int NOT NULL,
   `description` longtext NOT NULL,
   `date_created` datetime(6) NOT NULL,
   `start_datetime` datetime(6) NOT NULL,
   `end_datetime` datetime(6) NOT NULL,
-  `offer_id` int(11) DEFAULT NULL,
+  `offer_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offer_id` (`offer_id`),
   CONSTRAINT `voucher_voucherset_offer_id_1d10d5d6_fk_offer_con` FOREIGN KEY (`offer_id`) REFERENCES `offer_conditionaloffer` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5014,9 +5020,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `waffle_flag` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `everyone` tinyint(1) DEFAULT NULL,
   `percent` decimal(3,1) DEFAULT NULL,
@@ -5032,7 +5038,7 @@ CREATE TABLE `waffle_flag` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `waffle_flag_created_4a6e8cef` (`created`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5041,7 +5047,7 @@ CREATE TABLE `waffle_flag` (
 
 LOCK TABLES `waffle_flag` WRITE;
 /*!40000 ALTER TABLE `waffle_flag` DISABLE KEYS */;
-INSERT INTO `waffle_flag` VALUES (2,'enable_client_side_checkout',1,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2021-07-30 20:17:26.458439','2023-02-21 14:41:58.381258'),(3,'disable_microfrontend_for_basket_page',NULL,NULL,0,0,0,0,'',0,'','2021-07-30 20:17:27.246844','2021-07-30 20:17:27.246866');
+INSERT INTO `waffle_flag` VALUES (2,'enable_client_side_checkout',1,NULL,0,1,0,0,'',0,'This flag determines if the integrated/client-side checkout flow should be enabled.','2021-07-30 20:17:26.458439','2023-11-10 22:32:45.564117'),(3,'disable_microfrontend_for_basket_page',NULL,NULL,0,0,0,0,'',0,'','2021-07-30 20:17:27.246844','2021-07-30 20:17:27.246866');
 /*!40000 ALTER TABLE `waffle_flag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5050,17 +5056,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `waffle_flag_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `flag_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `flag_id` int NOT NULL,
+  `group_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `waffle_flag_groups_flag_id_group_id_8ba0c71b_uniq` (`flag_id`,`group_id`),
   KEY `waffle_flag_groups_group_id_a97c4f66_fk_auth_group_id` (`group_id`),
   CONSTRAINT `waffle_flag_groups_flag_id_c11c0c05_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
   CONSTRAINT `waffle_flag_groups_group_id_a97c4f66_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5077,17 +5083,17 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `waffle_flag_users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `flag_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `flag_id` int NOT NULL,
+  `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `waffle_flag_users_flag_id_user_id_b46f76b0_uniq` (`flag_id`,`user_id`),
   KEY `waffle_flag_users_user_id_8026df9b_fk_ecommerce_user_id` (`user_id`),
   CONSTRAINT `waffle_flag_users_flag_id_833c37b0_fk_waffle_flag_id` FOREIGN KEY (`flag_id`) REFERENCES `waffle_flag` (`id`),
   CONSTRAINT `waffle_flag_users_user_id_8026df9b_fk_ecommerce_user_id` FOREIGN KEY (`user_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5104,9 +5110,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `waffle_sample` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `percent` decimal(4,1) NOT NULL,
   `note` longtext NOT NULL,
@@ -5115,7 +5121,7 @@ CREATE TABLE `waffle_sample` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `waffle_sample_created_76198bd5` (`created`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5133,9 +5139,9 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `waffle_switch` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `active` tinyint(1) NOT NULL,
   `note` longtext NOT NULL,
@@ -5144,7 +5150,7 @@ CREATE TABLE `waffle_switch` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `waffle_switch_created_c004e77e` (`created`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5153,7 +5159,7 @@ CREATE TABLE `waffle_switch` (
 
 LOCK TABLES `waffle_switch` WRITE;
 /*!40000 ALTER TABLE `waffle_switch` DISABLE KEYS */;
-INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2021-07-30 20:17:11.591857','2021-07-30 20:17:11.591878'),(4,'enable_user_list_view',1,'','2021-07-30 20:17:13.951196','2021-07-30 20:17:13.951217'),(5,'enable_braze',0,'','2021-07-30 20:17:16.230898','2021-07-30 20:17:16.230919'),(7,'enable_enterprise_on_runtime',0,'','2021-07-30 20:17:18.034778','2021-07-30 20:17:18.034799'),(10,'hubspot_forms_integration_enable',0,'','2021-07-30 20:17:19.219855','2021-07-30 20:17:19.219876'),(11,'enable_order_list_view',1,'','2021-07-30 20:17:20.691939','2021-07-30 20:17:20.691961'),(12,'disable_repeat_order_check',0,'','2021-07-30 20:17:20.791438','2021-07-30 20:17:20.791459'),(13,'payment_processor_active_cybersource',1,'','2021-07-30 20:17:25.835839','2021-07-30 20:17:25.835862'),(14,'payment_processor_active_paypal',1,'','2021-07-30 20:17:25.837210','2021-07-30 20:17:25.837225'),(15,'payment_processor_active_stripe',1,'','2021-07-30 20:17:27.076682','2021-07-30 20:17:27.076704'),(16,'enable_refund_list_view',1,'','2021-07-30 20:17:40.082901','2021-07-30 20:17:40.082922'),(17,'sailthru_enable',0,'','2021-07-30 20:17:41.280967','2021-07-30 20:17:41.280987');
+INSERT INTO `waffle_switch` VALUES (1,'publish_course_modes_to_lms',1,'','2021-07-30 20:17:11.591857','2021-07-30 20:17:11.591878'),(4,'enable_user_list_view',1,'','2021-07-30 20:17:13.951196','2021-07-30 20:17:13.951217'),(5,'enable_braze',0,'','2021-07-30 20:17:16.230898','2021-07-30 20:17:16.230919'),(7,'enable_enterprise_on_runtime',0,'','2021-07-30 20:17:18.034778','2021-07-30 20:17:18.034799'),(10,'hubspot_forms_integration_enable',0,'','2021-07-30 20:17:19.219855','2021-07-30 20:17:19.219876'),(11,'enable_order_list_view',1,'','2021-07-30 20:17:20.691939','2021-07-30 20:17:20.691961'),(12,'disable_repeat_order_check',0,'','2021-07-30 20:17:20.791438','2021-07-30 20:17:20.791459'),(13,'payment_processor_active_cybersource',1,'','2021-07-30 20:17:25.835839','2021-07-30 20:17:25.835862'),(14,'payment_processor_active_paypal',1,'','2021-07-30 20:17:25.837210','2021-07-30 20:17:25.837225'),(15,'payment_processor_active_stripe',1,'','2021-07-30 20:17:27.076682','2021-07-30 20:17:27.076704'),(16,'enable_refund_list_view',1,'','2021-07-30 20:17:40.082901','2021-07-30 20:17:40.082922'),(17,'sailthru_enable',0,'','2021-07-30 20:17:41.280967','2021-07-30 20:17:41.280987'),(18,'disable_redundant_payment_check_for_mobile',0,'','2023-11-10 22:28:59.865630','2023-11-10 22:28:59.865644');
 /*!40000 ALTER TABLE `waffle_switch` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5162,19 +5168,19 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `wishlists_line` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quantity` int(10) unsigned NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `quantity` int unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `wishlist_id` int(11) NOT NULL,
+  `product_id` int DEFAULT NULL,
+  `wishlist_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `wishlists_line_wishlist_id_product_id_78f04673_uniq` (`wishlist_id`,`product_id`),
   KEY `wishlists_line_product_id_9d6d9b37_fk_catalogue_product_id` (`product_id`),
   CONSTRAINT `wishlists_line_product_id_9d6d9b37_fk_catalogue_product_id` FOREIGN KEY (`product_id`) REFERENCES `catalogue_product` (`id`),
   CONSTRAINT `wishlists_line_wishlist_id_4cffe302_fk_wishlists_wishlist_id` FOREIGN KEY (`wishlist_id`) REFERENCES `wishlists_wishlist` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5191,20 +5197,20 @@ UNLOCK TABLES;
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `wishlists_wishlist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `key` varchar(6) NOT NULL,
   `visibility` varchar(20) NOT NULL,
   `date_created` datetime(6) NOT NULL,
-  `owner_id` int(11) NOT NULL,
+  `owner_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`),
   KEY `wishlists_wishlist_owner_id_d5464c62_fk_ecommerce_user_id` (`owner_id`),
   KEY `wishlists_wishlist_date_created_c05d5e7f` (`date_created`),
   CONSTRAINT `wishlists_wishlist_owner_id_d5464c62_fk_ecommerce_user_id` FOREIGN KEY (`owner_id`) REFERENCES `ecommerce_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -5225,4 +5231,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-21 14:42:05
+-- Dump completed on 2023-11-10 22:33:00
